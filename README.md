@@ -50,12 +50,12 @@ Develop Back End system by using NestJS framework for borrowing and returning in
 ### Minimum Viable Product (MVP)
 
 - The system supports Create, Read, Update, and Delete (CRUD) operations for Items, Users, and Loans via API endpoints.
-- The system allows users to borrow items and all loan transactions are recorded and admin can review the borrowing history, including the item, the user, the borrow date, and the return date
+- The system allows users to borrow items and all loan transactions are recorded, so admin can review the borrowing history, including the item, the user, the borrow date, and the return date
 
 ### Scope
 
 - Develop only the Back End system.
-- Use Swagger as Front End to display the user interface.
+- Use Swagger as Front End to display the API endpoints.
 
 ### Technologies & Tools
 
@@ -91,14 +91,14 @@ The system use a **MySQL** database to store data. Below is the database schema:
 
 Tables:
 - Items
-   - `id`: Primary Key (Unique identifier for each item)
+   - `id`: Primary Key (Unique identifier for each item, stored as UUID)
    - `name`: String (Name of the item)
    - `description`: String (Description of the item, nullable)
    - `status`: Enum ('Available', 'Unavailable') (Status of the item)
    - `created_at`: DateTime (Date and time when the record was created)
    - `updated_at`: DateTime (Date and time when the record was last updated)
 - Users
-   - `id`: Primary Key (Unique identifier for each user)
+   - `id`: Primary Key (Unique identifier for each user, stored as UUID)
    - `username`: String (User's unique username)
    - `email`: String (User's email address)
    - `password`: String (User's password, hashed)
@@ -106,7 +106,7 @@ Tables:
    - `created_at`: DateTime (Date and time when the record was created)
    - `updated_at`: DateTime (Date and time when the record was last updated)
 - Loans
-   - `id`: Primary Key (Unique identifier for each loan)
+   - `id`: Primary Key (Unique identifier for each loan, stored as UUID)
    - `user_id`: Foreign Key (References `Users.id`)
    - `item_id`: Foreign Key (References `Items.id`)
    - `borrowed_date`: DateTime (The date the item was borrowed)
@@ -125,7 +125,7 @@ Sprint | Week | Deliverables
 
 In sprint 1, I focused on items table and used in-memory database instead of MySQL to preview the project and make it easier to setup.
 
-Start project by following [this steps](#getting-started). You will found API documentation from Swagger at http://localhost:3000/api.
+Start project by following [getting started section](#getting-started). You will found API documentation from Swagger at http://localhost:3000/api.
 
 #### Deliverables
 
