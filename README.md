@@ -1,6 +1,6 @@
 # Inventory Management System
-This project is currently in development at Sprint 1.
-## Table of Content
+This project is currently in development at [Sprint 1](#sprint-1).
+## Table of Contents
 - [Getting Started](#getting-started)
    - [Installation](#installation)
    - [Run Server](#run-server)
@@ -67,7 +67,7 @@ Develop Back End system by using NestJS framework for borrowing and returning in
 
 ### Architecture Design
 
-I use the Clean Architecture in my design to separate the system functions, which helps the system to be organized, easy to understand and develop.
+I use the Clean Architecture in my design, which helps the system to be organized, easy to understand and develop.
 
 Here is project source directory:
 
@@ -79,7 +79,7 @@ src
 │   └── items
 │       ├── dto
 │       └── use-cases
-├── interface-adapters - Layer 3: Communicate with internal and external layers
+├── interface-adapters - Layer 3: Communicate with internal and external layers (handle requests & responses)
 │   └── controllers
 └── infrastructure - Layer 4: Interact with database
     ├── data
