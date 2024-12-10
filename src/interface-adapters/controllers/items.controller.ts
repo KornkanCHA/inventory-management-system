@@ -6,9 +6,10 @@ import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-c
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
 import { UpdateItemUseCase } from 'src/application/items/use-cases/update-item.use-case';
 import { DeleteItemUseCase } from 'src/application/items/use-cases/delete-item.use-case';
-
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('items')
+@ApiTags('Items')
 export class ItemController {
   constructor(
     private readonly createItemUseCase: CreateItemUseCase,
@@ -19,26 +20,31 @@ export class ItemController {
   ) {}
 
   @Get()
+  @ApiOperation({summary: 'Get all items'})
   getAll() {
     return this.getItemsUseCase.execute();
   }
 
   @Get(':id')
+  @ApiOperation({summary: 'Get item by ID'})
   getById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.getItemByIdUseCase.execute(id);
   }
 
   @Post()
+  @ApiOperation({summary: 'Create new item'})
   create(@Body() createItemDto: CreateItemDto) {
     return this.createItemUseCase.execute(createItemDto);
   }
 
   @Patch(':id')
+  @ApiOperation({summary: 'Update item'})
   update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateItemDto: UpdateItemDto) {
     return this.updateItemUseCase.execute(id, updateItemDto);
   }
 
   @Delete(':id')
+  @ApiOperation({summary: 'Delete item'})
   delete(@Param('id', new ParseUUIDPipe()) id: string): { message: string } {
     return this.deleteItemUseCase.execute(id);
   }
