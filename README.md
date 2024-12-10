@@ -115,7 +115,7 @@ Tables:
 ## Sprint Planning
 
 Sprint | Week | Deliverables
---- | :---: | ---
+:---: | :---: | ---
 1 | 1 | CRUD for Items + Unit Test + Swagger
 2 | 2 | CRUD for Users + Unit Test + Swagger
 3 | 3 | CRUD for Loans + Unit Test + Swagger
