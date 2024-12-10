@@ -130,11 +130,11 @@ Start project by following [this steps](#getting-started). You will found API do
 #### Deliverables
 
 - Implemented the ability to create, read, update, and delete (CRUD) Items through API endpoints.
-- Developed unit tests to verify the correctness of the system logic and functionality.
+- Developed unit tests to verify the correctness of the item repository and item use cases.
 - Integrated Swagger for interactive interface where developers can view the available Items API, parameters, and responses.
 
 #### API Endpoints
-Base URL: http://localhost:3000/items
+This is API Endpoints for CRUD item, with a base URL at http://localhost:3000/items.
 
 | Method | Endpoint         | Description                             |
 |--------|------------------|-----------------------------------------|
