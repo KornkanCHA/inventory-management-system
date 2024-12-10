@@ -14,6 +14,6 @@ export class UpdateItemDto {
 
     @ApiPropertyOptional({ enum: ['Available', 'Unavailable']})
     @IsOptional()
-    @IsEnum(["Available", "Unavailable"], {message: 'status must be one of the following values: Available, Unavailable'})
+    @IsEnum(["Available", "Unavailable"], {message: "status must be 'Available' or 'Unavailable'"})
     status?: "Available" | "Unavailable";
 }
