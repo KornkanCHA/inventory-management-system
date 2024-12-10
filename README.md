@@ -34,6 +34,7 @@ Run the following command to start server.
 ```
 npm run start
 ```
+The API documentation from Swagger can be found at http://localhost:3000/api.
 
 ### Testing
 Run the following command to execute unit tests.
