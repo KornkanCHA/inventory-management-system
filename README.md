@@ -34,7 +34,6 @@ Run the following command to start server.
 ```
 npm run start
 ```
-The API documentation from Swagger can be found at http://localhost:3000/api.
 
 ### Testing
 Run the following command to execute unit tests.
@@ -117,14 +116,16 @@ Tables:
 
 Sprint | Week | Deliverables
 --- | :---: | ---
-Sprint 1 | 1 | CRUD for Items + Unit Test + Swagger
-Sprint 2 | 2 | CRUD for Users + Unit Test + Swagger
-Sprint 3 | 3 | CRUD for Loans + Unit Test + Swagger
-Sprint 4 | 4 | Integration Tests + End-to-End Test + Final Documentation
+1 | 1 | CRUD for Items + Unit Test + Swagger
+2 | 2 | CRUD for Users + Unit Test + Swagger
+3 | 3 | CRUD for Loans + Unit Test + Swagger
+4 | 4 | Integration Tests + End-to-End Test + Final Documentation
 
 ### Sprint 1
 
-On sprint 1, I focused on items table and used in-memory database instead of MySQL to preview the project and make it easier to setup.
+In sprint 1, I focused on items table and used in-memory database instead of MySQL to preview the project and make it easier to setup.
+
+Start project by following [this steps](#getting-started). You will found API documentation from Swagger at http://localhost:3000/api.
 
 #### Deliverables
 
@@ -133,9 +134,7 @@ On sprint 1, I focused on items table and used in-memory database instead of MyS
 - Integrated Swagger for interactive interface where developers can view the available Items API, parameters, and responses.
 
 #### API Endpoints
-
 Base URL: http://localhost:3000/items
-
 
 | Method | Endpoint         | Description                             |
 |--------|------------------|-----------------------------------------|
