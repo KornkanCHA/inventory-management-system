@@ -26,25 +26,25 @@ export class ItemController {
   }
 
   @Get(':id')
-  @ApiOperation({summary: 'Get item by ID'})
+  @ApiOperation({summary: 'Get a specific item by ID'})
   getById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.getItemByIdUseCase.execute(id);
   }
 
   @Post()
-  @ApiOperation({summary: 'Create new item'})
+  @ApiOperation({summary: 'Create a new item'})
   create(@Body() createItemDto: CreateItemDto) {
     return this.createItemUseCase.execute(createItemDto);
   }
 
   @Patch(':id')
-  @ApiOperation({summary: 'Update item'})
+  @ApiOperation({summary: 'Update an existing item'})
   update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateItemDto: UpdateItemDto) {
     return this.updateItemUseCase.execute(id, updateItemDto);
   }
 
   @Delete(':id')
-  @ApiOperation({summary: 'Delete item'})
+  @ApiOperation({summary: 'Delete an item by ID'})
   delete(@Param('id', new ParseUUIDPipe()) id: string): { message: string } {
     return this.deleteItemUseCase.execute(id);
   }
