@@ -2,12 +2,12 @@ import { IsString, IsInt, IsOptional, IsNotEmpty, Min } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateItemDto {
-    @ApiProperty()
+    @ApiProperty({ example: "Macbook Air M1" })
     @IsNotEmpty()
     @IsString()
     name: string;
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({ example: "8GB, SSD 512GB" })
     @IsString()
     @IsOptional()
     description?: string;

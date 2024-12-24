@@ -2,12 +2,12 @@ import { IsString, IsOptional, IsInt, Min } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateItemDto {
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({ example: "Macbook Air M1" })
     @IsOptional()
     @IsString()
     name?: string;
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({ example: "8GB, SSD 512GB" })
     @IsOptional()
     @IsString()
     description?: string;
@@ -16,5 +16,5 @@ export class UpdateItemDto {
     @IsInt({ message: 'quantity must be an integer' })
     @Min(0, { message: 'quantity must be at least 0' })
     @IsOptional()
-    quantity: number = 1;
+    quantity: number;
 }
