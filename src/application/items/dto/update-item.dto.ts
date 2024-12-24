@@ -1,4 +1,4 @@
-import { IsString, IsEnum, IsOptional, IsInt } from 'class-validator';
+import { IsString, IsOptional, IsInt, Min } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateItemDto {
@@ -12,8 +12,9 @@ export class UpdateItemDto {
     @IsString()
     description?: string;
 
-    @ApiPropertyOptional({ enum: ['Available', 'Unavailable']})
+    @ApiPropertyOptional()
+    @IsInt({ message: 'quantity must be an integer' })
+    @Min(0, { message: 'quantity must be at least 0' })
     @IsOptional()
-    @IsEnum(["Available", "Unavailable"], {message: "status must be 'Available' or 'Unavailable'"})
-    status?: "Available" | "Unavailable";
+    quantity: number = 1;
 }

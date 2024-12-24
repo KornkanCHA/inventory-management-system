@@ -1,10 +1,22 @@
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity('items')
 export class Item {
-    constructor(
-        public id: string,
-        public name: string,
-        public description: string,
-        public status: 'Available' | 'Unavailable',
-        public created_at: Date,
-        public updated_at: Date
-    ) {}
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ length: 100 })
+  name: string;
+
+  @Column({ type: 'text', nullable: true })
+  description?: string;
+
+  @Column({ type: 'int', default: 1 })
+  quantity: number;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
 }

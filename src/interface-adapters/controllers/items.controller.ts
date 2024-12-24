@@ -1,16 +1,15 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, ParseUUIDPipe } from '@nestjs/common';
-import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
-import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
+import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
 import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-case';
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
 import { UpdateItemUseCase } from 'src/application/items/use-cases/update-item.use-case';
 import { DeleteItemUseCase } from 'src/application/items/use-cases/delete-item.use-case';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
+import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
+import { Item } from 'src/domain/entities/item.entity';
 
 @Controller('items')
-@ApiTags('Items')
-export class ItemController {
+export class ItemsController {
   constructor(
     private readonly createItemUseCase: CreateItemUseCase,
     private readonly getItemsUseCase: GetItemsUseCase,
@@ -20,32 +19,27 @@ export class ItemController {
   ) {}
 
   @Get()
-  @ApiOperation({summary: 'Get all items'})
-  getAll() {
+  async findAll(): Promise<Item[]> {
     return this.getItemsUseCase.execute();
   }
 
   @Get(':id')
-  @ApiOperation({summary: 'Get a specific item by ID'})
-  getById(@Param('id', new ParseUUIDPipe()) id: string) {
+  async findById(@Param('id') id: string): Promise<Item> {
     return this.getItemByIdUseCase.execute(id);
   }
 
   @Post()
-  @ApiOperation({summary: 'Create a new item'})
-  create(@Body() createItemDto: CreateItemDto) {
-    return this.createItemUseCase.execute(createItemDto);
+  async create(@Body() creteItemDto: CreateItemDto): Promise<Item> {
+    return this.createItemUseCase.execute(creteItemDto);
   }
 
   @Patch(':id')
-  @ApiOperation({summary: 'Update an existing item'})
-  update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateItemDto: UpdateItemDto) {
-    return this.updateItemUseCase.execute(id, updateItemDto);
+  async update(@Param('id') id: string, @Body() updateItemDto: UpdateItemDto): Promise<void> {
+    await this.updateItemUseCase.execute(id, updateItemDto);
   }
 
   @Delete(':id')
-  @ApiOperation({summary: 'Delete an item by ID'})
-  delete(@Param('id', new ParseUUIDPipe()) id: string): { message: string } {
-    return this.deleteItemUseCase.execute(id);
+  async delete(@Param('id') id: string): Promise<void> {
+    await this.deleteItemUseCase.execute(id);
   }
 }
