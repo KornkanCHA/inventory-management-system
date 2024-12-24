@@ -34,12 +34,14 @@ export class ItemsController {
   }
 
   @Patch(':id')
-  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateItemDto: UpdateItemDto): Promise<void> {
-    await this.updateItemUseCase.execute(id, updateItemDto);
+  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateItemDto: UpdateItemDto): Promise<Item> {
+    const updatedItem = this.updateItemUseCase.execute(id, updateItemDto);
+    return updatedItem;
   }
 
   @Delete(':id')
-  async delete(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
-    await this.deleteItemUseCase.execute(id);
+  async delete(@Param('id', new ParseUUIDPipe()) id: string): Promise<Object> {
+    const deletedItem = this.deleteItemUseCase.execute(id);
+    return deletedItem;
   }
 }

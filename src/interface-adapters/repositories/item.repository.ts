@@ -9,27 +9,27 @@ import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
 export class ItemRepository {
   constructor(
     @InjectRepository(Item)
-    private readonly repository: Repository<Item>,
+    private readonly itemRepository: Repository<Item>,
   ) {}
 
   async findAll(): Promise<Item[]> {
-    return this.repository.find();
+    return await this.itemRepository.find();
   }
 
   async findById(id: string): Promise<Item | null> {
-    return this.repository.findOneBy({ id });
+    return await this.itemRepository.findOneBy({ id });
   }
 
   async create(crateItemDto: CreateItemDto): Promise<Item> {
-    const newItem = this.repository.create(crateItemDto);
-    return this.repository.save(newItem);
+    const newItem = await this.itemRepository.create(crateItemDto);
+    return this.itemRepository.save(newItem);
   }
 
   async update(id: string, updateItemDto: UpdateItemDto): Promise<void> {
-    await this.repository.update(id, updateItemDto);
+    await this.itemRepository.update(id, updateItemDto);
   }
 
   async delete(id: string): Promise<void> {
-    await this.repository.delete(id);
+    await this.itemRepository.delete(id);
   }
 }
