@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, ParseUUIDPipe, ValidationPipe } from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
 import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-case';
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
@@ -24,7 +24,7 @@ export class ItemsController {
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<Item> {
+  async findById(@Param('id', new ParseUUIDPipe()) id: string): Promise<Item> {
     return this.getItemByIdUseCase.execute(id);
   }
 
@@ -34,12 +34,12 @@ export class ItemsController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateItemDto: UpdateItemDto): Promise<void> {
+  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateItemDto: UpdateItemDto): Promise<void> {
     await this.updateItemUseCase.execute(id, updateItemDto);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<void> {
+  async delete(@Param('id', new ParseUUIDPipe()) id: string): Promise<void> {
     await this.deleteItemUseCase.execute(id);
   }
 }
