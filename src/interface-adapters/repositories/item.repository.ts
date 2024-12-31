@@ -32,4 +32,12 @@ export class ItemRepository {
   async delete(id: string): Promise<void> {
     await this.itemRepository.delete(id);
   }
+
+  async search(query: string): Promise<Item[]> {
+    return this.itemRepository.find({
+      where: [
+        { name: query }
+      ]
+    });
+  }
 }
