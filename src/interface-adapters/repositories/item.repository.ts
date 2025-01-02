@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { Repository, Like } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Item } from '../../domain/entities/item.entity';
+import { ItemRepository } from 'src/domain/repositories/item.repository';
 import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
 import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
 
 @Injectable()
-export class ItemRepository {
+export class TypeOrmItemRepository implements ItemRepository {
   constructor(
     @InjectRepository(Item)
     private readonly itemRepository: Repository<Item>,
