@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
 import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-case';
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
@@ -22,7 +22,7 @@ export class ItemsController {
 
   @Get('search')
   async search(@Query('query') query: string): Promise<Item[]> {
-    return this.searchItemUseCase.execute(query);
+    return this.searchItemUseCase.execute(query); 
   }
 
   @Get()
