@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Item } from '../../domain/entities/item.entity';
 import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
@@ -34,10 +34,9 @@ export class ItemRepository {
   }
 
   async search(query: string): Promise<Item[]> {
+    console.log(`Search query: ${query}`);
     return this.itemRepository.find({
-      where: [
-        { name: query }
-      ]
+      where: { name: Like(`%${query}%`) },
     });
   }
 }
