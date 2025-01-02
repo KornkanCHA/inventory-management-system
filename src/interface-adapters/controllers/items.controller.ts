@@ -21,8 +21,12 @@ export class ItemsController {
   ) {}
 
   @Get('search')
-  async search(@Query('query') query: string): Promise<Item[]> {
-    return this.searchItemUseCase.execute(query); 
+  async search(
+    @Query('query') query: string,
+    @Query('sortBy') sortBy?: string,
+    @Query('order') order: 'ASC' | 'DESC' = 'ASC'
+  ): Promise<Item[]> {
+    return this.searchItemUseCase.execute(query, sortBy, order);
   }
 
   @Get()

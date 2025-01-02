@@ -33,9 +33,10 @@ export class ItemRepository {
     await this.itemRepository.delete(id);
   }
 
-  async search(query: string): Promise<Item[]> {
+  async search(query: string, sortBy = 'name', order: 'ASC' | 'DESC' = 'ASC'): Promise<Item[]> {
     return this.itemRepository.find({
-      where: { name: Like(`%${query.toLowerCase()}%`) }
+      where: { name: Like(`${query}%`) },
+      order: { [sortBy]: order }
     });
   }
 }
