@@ -12,6 +12,6 @@ export class DeleteItemUseCase {
       throw new NotFoundException(`Item with id ${id} not found`);
     }
     await this.itemRepository.delete(id);
-    return { message: 'Delete Successful' };
+    return { message: `Item with ID ${id} has been deleted successfully.` };
   }
 }
