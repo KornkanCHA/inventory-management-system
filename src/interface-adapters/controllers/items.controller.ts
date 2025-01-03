@@ -59,10 +59,6 @@ export class ItemsController {
     @Body() creteItemDto: CreateItemDto,
     @Headers('content-type') contentType: string
   ): Promise<Item> {
-    if (!contentType || !contentType.includes('application/json')) {
-      throw new HttpException('Request must be in JSON format', HttpStatus.BAD_REQUEST);
-    }
-
     try {
       return await this.createItemUseCase.execute(creteItemDto);
     } catch (error) {
@@ -76,10 +72,6 @@ export class ItemsController {
     @Body() updateItemDto: UpdateItemDto,
     @Headers('content-type') contentType: string
   ): Promise<Item> {
-    if (!contentType || !contentType.includes('application/json')) {
-      throw new HttpException('Request must be in JSON format', HttpStatus.BAD_REQUEST);
-    }
-
     try {
       return await this.updateItemUseCase.execute(id, updateItemDto);
     } catch (error) {
