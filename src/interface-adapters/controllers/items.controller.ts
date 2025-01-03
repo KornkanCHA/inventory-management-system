@@ -56,9 +56,7 @@ export class ItemsController {
 
   @Post()
   async create(
-    @Body() creteItemDto: CreateItemDto,
-    @Headers('content-type') contentType: string
-  ): Promise<Item> {
+    @Body() creteItemDto: CreateItemDto): Promise<Item> {
     try {
       return await this.createItemUseCase.execute(creteItemDto);
     } catch (error) {
@@ -69,8 +67,7 @@ export class ItemsController {
   @Patch(':id')
   async update(
     @Param('id', new ParseUUIDPipe()) id: string, 
-    @Body() updateItemDto: UpdateItemDto,
-    @Headers('content-type') contentType: string
+    @Body() updateItemDto: UpdateItemDto
   ): Promise<Item> {
     try {
       return await this.updateItemUseCase.execute(id, updateItemDto);
