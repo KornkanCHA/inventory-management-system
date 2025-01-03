@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, Headers, ParseUUIDPipe, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
 import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-case';
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
@@ -26,33 +26,81 @@ export class ItemsController {
     @Query('sortBy') sortBy?: string,
     @Query('order') order: 'ASC' | 'DESC' = 'ASC'
   ): Promise<Item[]> {
-    return this.searchItemUseCase.execute(query, sortBy, order);
+    try {
+      return await this.searchItemUseCase.execute(query, sortBy, order);
+    } catch(error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get()
   async findAll(): Promise<Item[]> {
-    return this.getItemsUseCase.execute();
+    try {
+      return await this.getItemsUseCase.execute();
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Get(':id')
   async findById(@Param('id', new ParseUUIDPipe()) id: string): Promise<Item> {
-    return this.getItemByIdUseCase.execute(id);
+    try {
+      return await this.getItemByIdUseCase.execute(id);
+    } catch (error) {
+      if (error.name === 'NotFoundException') {
+        throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Post()
-  async create(@Body() creteItemDto: CreateItemDto): Promise<Item> {
-    return this.createItemUseCase.execute(creteItemDto);
+  async create(
+    @Body() creteItemDto: CreateItemDto,
+    @Headers('content-type') contentType: string
+  ): Promise<Item> {
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new HttpException('Request must be in JSON format', HttpStatus.BAD_REQUEST);
+    }
+
+    try {
+      return await this.createItemUseCase.execute(creteItemDto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Patch(':id')
-  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateItemDto: UpdateItemDto): Promise<Item> {
-    const updatedItem = this.updateItemUseCase.execute(id, updateItemDto);
-    return updatedItem;
+  async update(
+    @Param('id', new ParseUUIDPipe()) id: string, 
+    @Body() updateItemDto: UpdateItemDto,
+    @Headers('content-type') contentType: string
+  ): Promise<Item> {
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new HttpException('Request must be in JSON format', HttpStatus.BAD_REQUEST);
+    }
+
+    try {
+      return await this.updateItemUseCase.execute(id, updateItemDto);
+    } catch (error) {
+      if (error.name === 'NotFoundException') {
+        throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
+
 
   @Delete(':id')
   async delete(@Param('id', new ParseUUIDPipe()) id: string): Promise<Object> {
-    const deletedItem = this.deleteItemUseCase.execute(id);
-    return deletedItem;
+    try {
+      return await this.deleteItemUseCase.execute(id);
+    } catch (error) {
+      if (error.name === 'NotFoundException') {
+        throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+      }
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
   }
 }
