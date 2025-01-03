@@ -56,7 +56,13 @@ export class ItemsController {
 
   @Post()
   async create(
-    @Body() creteItemDto: CreateItemDto): Promise<Item> {
+    @Body() creteItemDto: CreateItemDto,
+    @Headers('content-type') contentType: string
+  ): Promise<Item> {
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new HttpException('Request must be in JSON format', HttpStatus.BAD_REQUEST);
+    }
+
     try {
       return await this.createItemUseCase.execute(creteItemDto);
     } catch (error) {
@@ -67,8 +73,13 @@ export class ItemsController {
   @Patch(':id')
   async update(
     @Param('id', new ParseUUIDPipe()) id: string, 
-    @Body() updateItemDto: UpdateItemDto
+    @Body() updateItemDto: UpdateItemDto,
+    @Headers('content-type') contentType: string
   ): Promise<Item> {
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new HttpException('Request must be in JSON format', HttpStatus.BAD_REQUEST);
+    }
+    
     try {
       return await this.updateItemUseCase.execute(id, updateItemDto);
     } catch (error) {
