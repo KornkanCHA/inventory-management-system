@@ -8,12 +8,12 @@ export class ItemBusinessRules {
      * @param existingItems - List of existing items to check.
      * @return The updated item or null if duplicate not found.
      */
-    static handleDuplicateItemName(
+    static ValidateUniqueItem(
         name: string,
         quantity: number,
         existingItems: Item[]
     ): Item | null {
-        const existingItem = existingItems.find(item => item.name === name);
+        const existingItem = existingItems.find(item => item.name.toLowerCase() === name.toLowerCase());
         if (existingItem) {
             existingItem.quantity += quantity;
             return existingItem;
