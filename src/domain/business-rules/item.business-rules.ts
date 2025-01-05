@@ -8,7 +8,7 @@ export class ItemBusinessRules {
      * @param existingItems - List of existing items to check.
      * @return The updated item or null if duplicate not found.
      */
-    static ValidateUniqueItem(
+    static validateUniqueItem(
         name: string,
         quantity: number,
         existingItems: Item[]
