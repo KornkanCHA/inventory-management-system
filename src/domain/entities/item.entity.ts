@@ -14,6 +14,9 @@ export class Item {
   @Column({ type: 'int', default: 1 })
   quantity: number;
 
+  @Column({ type: 'int', default: 0 })
+  borrowQuantity: number;
+
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 

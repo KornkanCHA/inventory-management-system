@@ -29,13 +29,21 @@ export class ItemsController {
     return this.searchItemUseCase.execute(query, sortBy, order);
   }
 
+  @Patch(':id/brrow')
+  async borrow(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('quantity') quantity: number
+  ): Promise<void> {
+    return null;
+  }
+
   @Get()
   async findAll(): Promise<Item[]> {
     return this.getItemsUseCase.execute();
   }
 
   @Get(':id')
-  async findById(@Param('id', new ParseUUIDPipe()) id: string): Promise<Item> {
+  async findById(@Param('id', ParseUUIDPipe) id: string): Promise<Item> {
     return this.getItemByIdUseCase.execute(id);
   }
 
@@ -45,13 +53,13 @@ export class ItemsController {
   }
 
   @Patch(':id')
-  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateItemDto: UpdateItemDto): Promise<Item> {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateItemDto: UpdateItemDto): Promise<Item> {
     const updatedItem = this.updateItemUseCase.execute(id, updateItemDto);
     return updatedItem;
   }
 
   @Delete(':id')
-  async delete(@Param('id', new ParseUUIDPipe()) id: string): Promise<Object> {
+  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<Object> {
     const deletedItem = this.deleteItemUseCase.execute(id);
     return deletedItem;
   }
