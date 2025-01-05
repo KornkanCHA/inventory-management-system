@@ -16,5 +16,7 @@ export class UpdateItemDto {
     @IsInt({ message: 'quantity must be an integer' })
     @Min(0, { message: 'quantity must be at least 0' })
     @IsOptional()
-    quantity: number;
+    quantity?: number;
+
+    borrowQuantity?: number;
 }

@@ -21,13 +21,11 @@ export class ItemBusinessRules {
         return null;
     }
 
-    static validateBorrow(item: Item, quantity: number): void {
+    static borrowItem(item: Item, quantity: number): Item {
         if (item.quantity < quantity) {
             throw new Error("Not enough quantity available");
         }
-    }
-
-    static borrowItem(item: Item, quantity: number): void {
-        
+        item.quantity -= quantity;
+        return item;
     }
 }

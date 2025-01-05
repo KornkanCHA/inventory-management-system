@@ -5,6 +5,7 @@ import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-
 import { UpdateItemUseCase } from 'src/application/items/use-cases/update-item.use-case';
 import { DeleteItemUseCase } from 'src/application/items/use-cases/delete-item.use-case';
 import { SearchItemUseCase } from 'src/application/items/use-cases/search-item.use-case';
+import { BorrowItemUseCase } from 'src/application/items/use-cases/borrow-item.use-case';
 import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
 import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
 import { Item } from 'src/domain/entities/item.entity';
@@ -17,7 +18,8 @@ export class ItemsController {
     private readonly getItemByIdUseCase: GetItemByIdUseCase,
     private readonly updateItemUseCase: UpdateItemUseCase,
     private readonly deleteItemUseCase: DeleteItemUseCase,
-    private readonly searchItemUseCase: SearchItemUseCase
+    private readonly searchItemUseCase: SearchItemUseCase,
+    private readonly borrowItemUseCase: BorrowItemUseCase
   ) {}
 
   @Get('search')
@@ -29,12 +31,19 @@ export class ItemsController {
     return this.searchItemUseCase.execute(query, sortBy, order);
   }
 
-  @Patch(':id/brrow')
+  @Patch(':id/borrow')
   async borrow(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body('quantity') quantity: number
-  ): Promise<void> {
-    return null;
+    @Query('quantity') quantity: number
+  ): Promise<any> {
+    try {
+      return await this.borrowItemUseCase.execute(id, quantity);
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        HttpStatus.BAD_REQUEST
+      )
+    }
   }
 
   @Get()
