@@ -35,7 +35,7 @@ export class ItemRepository {
 
   async search(query: string, sortBy = 'name', order: 'ASC' | 'DESC' = 'ASC'): Promise<Item[]> {
     return this.itemRepository.find({
-      where: { name: Like(`${query}%`) },
+      where: { name: Like(`%${query}%`) },
       order: { [sortBy]: order }
     });
   }
