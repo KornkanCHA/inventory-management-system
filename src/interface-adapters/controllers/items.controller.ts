@@ -103,9 +103,8 @@ export class ItemsController {
     } catch (error) {
       throw new HttpException(
         error.message,
-        HttpStatus.BAD_REQUEST
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
       )
     }
-    
   }
 }
