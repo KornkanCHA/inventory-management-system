@@ -29,7 +29,16 @@ export class ItemBusinessRules {
             throw new Error('Invalid borrow quantity');
         }
         item.quantity -= quantity;
-        item.borrowQuantity += quantity;
+        item.borrowedQuantity += quantity;
+        return item;
+    }
+
+    static returnItem(item: Item, quantity: number): Item {
+        if (item.borrowedQuantity < quantity || quantity < 1) {
+            throw new Error('Invalid return quantity');
+        }
+        item.quantity += quantity;
+        item.borrowedQuantity -= quantity;
         return item;
     }
 }

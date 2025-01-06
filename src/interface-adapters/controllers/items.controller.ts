@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, HttpException, HttpStatus, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, HttpException, HttpStatus, ParseIntPipe, NotFoundException } from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
 import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-case';
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
@@ -6,9 +6,11 @@ import { UpdateItemUseCase } from 'src/application/items/use-cases/update-item.u
 import { DeleteItemUseCase } from 'src/application/items/use-cases/delete-item.use-case';
 import { SearchItemUseCase } from 'src/application/items/use-cases/search-item.use-case';
 import { BorrowItemUseCase } from 'src/application/items/use-cases/borrow-item.use-case';
+import { ReturnItemUseCase } from 'src/application/items/use-cases/return-item.use-case';
 import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
 import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
 import { Item } from 'src/domain/entities/item.entity';
+
 
 @Controller('items')
 export class ItemsController {
@@ -19,7 +21,8 @@ export class ItemsController {
     private readonly updateItemUseCase: UpdateItemUseCase,
     private readonly deleteItemUseCase: DeleteItemUseCase,
     private readonly searchItemUseCase: SearchItemUseCase,
-    private readonly borrowItemUseCase: BorrowItemUseCase
+    private readonly borrowItemUseCase: BorrowItemUseCase,
+    private readonly returnItemUseCase: ReturnItemUseCase
   ) {}
 
   @Get('search')
@@ -72,5 +75,30 @@ export class ItemsController {
         HttpStatus.BAD_REQUEST
       )
     }
+  }
+
+  @Patch(':id/return')
+  async return(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Query('quantity', ParseIntPipe) quantity: number
+  ): Promise<Object> {
+    try {
+      const updatedItem = await this.returnItemUseCase.execute(id, quantity);
+      return {
+        message: `Item  returned successfully`,
+        item: {
+          id: updatedItem.id,
+          name: updatedItem.name,
+          quantity: updatedItem.quantity,
+          borrowedQuantity: updatedItem.borrowedQuantity
+        }
+      };
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        HttpStatus.BAD_REQUEST
+      )
+    }
+    
   }
 }

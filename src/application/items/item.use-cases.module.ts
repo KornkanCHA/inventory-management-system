@@ -10,6 +10,7 @@ import { DeleteItemUseCase } from './use-cases/delete-item.use-case';
 import { ItemsController } from 'src/interface-adapters/controllers/items.controller';
 import { SearchItemUseCase } from './use-cases/search-item.use-case';
 import { BorrowItemUseCase } from './use-cases/borrow-item.use-case';
+import { ReturnItemUseCase } from './use-cases/return-item.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Item])],
@@ -21,7 +22,8 @@ import { BorrowItemUseCase } from './use-cases/borrow-item.use-case';
     UpdateItemUseCase,
     DeleteItemUseCase,
     SearchItemUseCase,
-    BorrowItemUseCase
+    BorrowItemUseCase,
+    ReturnItemUseCase
   ],
   controllers: [ItemsController],
 })
