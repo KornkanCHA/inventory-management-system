@@ -22,11 +22,11 @@ export class ItemBusinessRules {
     }
 
     static borrowItem(item: Item, quantity: number): Item {
-        if (item.quantity < quantity) {
-            throw new Error('Not enough quantity available');
-        }
         if (quantity < 1) {
             throw new Error('Invalid borrow quantity');
+        }
+        if (item.quantity < quantity) {
+            throw new Error('Not enough quantity available');
         }
         item.quantity -= quantity;
         item.borrowedQuantity += quantity;

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, HttpException, HttpStatus, ParseIntPipe, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, HttpException, HttpStatus, ParseIntPipe} from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
 import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-case';
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
@@ -68,12 +68,19 @@ export class ItemsController {
   ): Promise<Object> {
     try {
       const updatedItem = await this.borrowItemUseCase.execute(id, quantity);
-      return { message: `Item ID ${id} borrowed successfully with ${quantity} quantity`}
+      return {
+        message: `Item borrowed successfully`,
+        item: {
+          id: updatedItem.id,
+          name: updatedItem.name,
+          quantity: updatedItem.quantity,
+          borrowedQuantity: updatedItem.borrowedQuantity
+        }
+      }
     } catch (error) {
       throw new HttpException(
         error.message,
-        HttpStatus.BAD_REQUEST
-      )
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -85,14 +92,14 @@ export class ItemsController {
     try {
       const updatedItem = await this.returnItemUseCase.execute(id, quantity);
       return {
-        message: `Item  returned successfully`,
+        message: `Item returned successfully`,
         item: {
           id: updatedItem.id,
           name: updatedItem.name,
           quantity: updatedItem.quantity,
           borrowedQuantity: updatedItem.borrowedQuantity
         }
-      };
+      }
     } catch (error) {
       throw new HttpException(
         error.message,
