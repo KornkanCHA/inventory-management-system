@@ -6,7 +6,6 @@ import { ValidationPipe, ParseUUIDPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalPipes(new ParseUUIDPipe());
 
   const config = new DocumentBuilder()
     .setTitle('Inventory Management API') 
