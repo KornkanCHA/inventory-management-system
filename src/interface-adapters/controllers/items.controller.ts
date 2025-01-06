@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, HttpException, HttpStatus, ParseIntPipe } from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
 import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-case';
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
@@ -31,21 +31,6 @@ export class ItemsController {
     return this.searchItemUseCase.execute(query, sortBy, order);
   }
 
-  @Patch(':id/borrow')
-  async borrow(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Query('quantity') quantity: number
-  ): Promise<any> {
-    try {
-      return await this.borrowItemUseCase.execute(id, quantity);
-    } catch (error) {
-      throw new HttpException(
-        error.message,
-        HttpStatus.BAD_REQUEST
-      )
-    }
-  }
-
   @Get()
   async findAll(): Promise<Item[]> {
     return this.getItemsUseCase.execute();
@@ -71,5 +56,21 @@ export class ItemsController {
   async delete(@Param('id', ParseUUIDPipe) id: string): Promise<Object> {
     const deletedItem = this.deleteItemUseCase.execute(id);
     return deletedItem;
+  }
+
+  @Patch(':id/borrow')
+  async borrow(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Query('quantity', ParseIntPipe) quantity: number
+  ): Promise<Object> {
+    try {
+      const updatedItem = await this.borrowItemUseCase.execute(id, quantity);
+      return { message: `Item ID ${id} borrowed successfully with ${quantity} quantity`}
+    } catch (error) {
+      throw new HttpException(
+        error.message,
+        HttpStatus.BAD_REQUEST
+      )
+    }
   }
 }

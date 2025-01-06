@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { ItemBusinessRules } from "src/domain/business-rules/item.business-rules";
 import { ItemRepository } from "src/interface-adapters/repositories/item.repository";
-import { UpdateItemDto } from "../dto/update-item.dto";
 
 @Injectable()
 export class BorrowItemUseCase {
