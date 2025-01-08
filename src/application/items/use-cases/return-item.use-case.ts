@@ -13,7 +13,8 @@ export class ReturnItemUseCase {
             throw new NotFoundException(`Item with id ${id} not found`);
         }
         try {
-            const updatedItem = ItemBusinessRules.returnItem(item, quantity);
+            ItemBusinessRules.validateReturnItem(item, quantity);
+            const updatedItem = ItemBusinessRules.executeReturnItem(item, quantity);
             await this.itemRepository.update(id, updatedItem);
             return updatedItem
         } catch (error) {
