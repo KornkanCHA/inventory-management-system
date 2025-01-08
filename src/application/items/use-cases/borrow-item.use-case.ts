@@ -14,12 +14,12 @@ export class BorrowItemUseCase {
         }
         
         try {
-            const updatedItem = ItemBusinessRules.borrowItem(item, quantity);
+            ItemBusinessRules.validateBorrowItem(item, quantity);
+            const updatedItem = ItemBusinessRules.executeBorrowItem(item, quantity);
             await this.itemRepository.update(id, updatedItem);
             return updatedItem;
         } catch (error) {
             throw new BadRequestException(error.message);
         }
-            
     }
 }

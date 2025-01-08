@@ -21,15 +21,18 @@ export class ItemBusinessRules {
         return null;
     }
 
-    static borrowItem(item: Item, quantity: number): Item {
-        if (quantity < 1) {
+    static validateBorrowItem(item: Item, borrowQuantity: number): void {
+        if (borrowQuantity < 1) {
             throw new Error('Invalid borrow quantity');
         }
-        if (item.quantity < quantity) {
+        if (item.quantity < borrowQuantity) {
             throw new Error('Not enough quantity available');
         }
-        item.quantity -= quantity;
-        item.borrowedQuantity += quantity;
+    }
+
+    static executeBorrowItem(item: Item, borrowQuantity: number): Item {
+        item.quantity -= borrowQuantity;
+        item.borrowedQuantity += borrowQuantity;
         return item;
     }
 
