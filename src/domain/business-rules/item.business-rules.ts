@@ -21,27 +21,59 @@ export class ItemBusinessRules {
         return null;
     }
 
+    /**
+     * Check if the borrow quantity is valid.
+     * @param item 
+     * @param borrowQuantity 
+     * @throws If the quantity is less than 1 or not enough items are available.
+     */
     static validateBorrowItem(item: Item, borrowQuantity: number): void {
         if (borrowQuantity < 1) {
-            throw new Error('Invalid borrow quantity');
+            throw new Error('Borrow quantity not be less than 1');
         }
+        
         if (item.quantity < borrowQuantity) {
             throw new Error('Not enough quantity available');
         }
     }
 
+    /**
+     * Update the item quantity when borrowed.
+     * @param item - The item to borrow.
+     * @param borrowQuantity - The quantity to borrow.
+     * @returns The updated item.
+     */
     static executeBorrowItem(item: Item, borrowQuantity: number): Item {
         item.quantity -= borrowQuantity;
         item.borrowedQuantity += borrowQuantity;
         return item;
     }
 
-    static returnItem(item: Item, quantity: number): Item {
-        if (item.borrowedQuantity < quantity || quantity < 1) {
+    /**
+     * Check if the return quantity is valid.
+     * @param item 
+     * @param returnQuantity 
+     * @throws If the quantity is less than 1 or not enough borrowed quantity are available.
+     */
+    static validateReturnItem(item: Item, returnQuantity: number): void {
+        if (returnQuantity < 1) {
+            throw new Error('Return quantity not be less than 1')
+        }
+        
+        if (item.borrowedQuantity < returnQuantity) {
             throw new Error('Invalid return quantity');
         }
-        item.quantity += quantity;
-        item.borrowedQuantity -= quantity;
+    }
+
+    /**
+     * Update the item quantity when returned.
+     * @param item - The item to return.
+     * @param returnQuantity - The quantity to return.
+     * @returns The updated item.
+     */
+    static executeReturnItem(item: Item, returnQuantity: number): Item {
+        item.quantity += returnQuantity;
+        item.borrowedQuantity -= returnQuantity;
         return item;
     }
 }
