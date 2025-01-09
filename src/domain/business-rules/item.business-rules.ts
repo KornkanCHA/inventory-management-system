@@ -1,5 +1,8 @@
 import { Item } from "../entities/item.entity";
 
+/**
+ * Handles business logic for item operations.
+ */
 export class ItemBusinessRules {
     /**
      * Combines qunatity of items if the name is duplicated.
@@ -31,7 +34,7 @@ export class ItemBusinessRules {
         if (borrowQuantity < 1) {
             throw new Error('Borrow quantity not be less than 1');
         }
-        
+
         if (item.quantity < borrowQuantity) {
             throw new Error('Not enough quantity available');
         }
