@@ -12,6 +12,7 @@ import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
 import { Item } from 'src/domain/entities/item.entity';
 import { BorrowItemDto } from 'src/application/items/dto/borrow-item.dto';
 import { ReturnItemDto } from 'src/application/items/dto/return-item.dto';
+import { ApiQuery } from '@nestjs/swagger';
 
 
 @Controller('items')
@@ -28,6 +29,9 @@ export class ItemController {
   ) {}
 
   @Get('search')
+  @ApiQuery({ name: 'query', type: String, description: 'Search term', required: true })
+  @ApiQuery({ name: 'sortBy', type: String, description: 'Field to sort by', required: false })
+  @ApiQuery({ name: 'order', enum: ['ASC', 'DESC'], description: 'Sort order (ASC or DESC)', required: false })
   async search(
     @Query('query') query: string,
     @Query('sortBy') sortBy?: string,
