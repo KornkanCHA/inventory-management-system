@@ -1,5 +1,5 @@
 import { IsString, IsOptional, IsInt, Min } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateItemDto {
     @ApiPropertyOptional({ example: "Macbook Air M1" })
@@ -17,6 +17,4 @@ export class UpdateItemDto {
     @Min(0, { message: 'quantity must be at least 0' })
     @IsOptional()
     quantity?: number;
-
-    borrowQuantity?: number;
 }

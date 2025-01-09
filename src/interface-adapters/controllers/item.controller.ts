@@ -10,10 +10,12 @@ import { ReturnItemUseCase } from 'src/application/items/use-cases/return-item.u
 import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
 import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
 import { Item } from 'src/domain/entities/item.entity';
+import { BorrowItemDto } from 'src/application/items/dto/borrow-item.dto';
+import { ReturnItemDto } from 'src/application/items/dto/return-item.dto';
 
 
 @Controller('items')
-export class ItemsController {
+export class ItemController {
   constructor(
     private readonly createItemUseCase: CreateItemUseCase,
     private readonly getItemsUseCase: GetItemsUseCase,
@@ -64,10 +66,11 @@ export class ItemsController {
   @Patch(':id/borrow')
   async borrow(
     @Param('id', ParseUUIDPipe) id: string,
-    @Query('quantity', ParseIntPipe) quantity: number
+    @Body() borrowItemDto: BorrowItemDto
   ): Promise<Object> {
     try {
-      const updatedItem = await this.borrowItemUseCase.execute(id, quantity);
+      borrowItemDto.id = id;
+      const updatedItem = await this.borrowItemUseCase.execute(borrowItemDto);
       return {
         message: `Item borrowed successfully`,
         item: {
@@ -87,10 +90,11 @@ export class ItemsController {
   @Patch(':id/return')
   async return(
     @Param('id', ParseUUIDPipe) id: string,
-    @Query('quantity', ParseIntPipe) quantity: number
+    @Body() returnItemDto: ReturnItemDto
   ): Promise<Object> {
     try {
-      const updatedItem = await this.returnItemUseCase.execute(id, quantity);
+      returnItemDto.id = id;
+      const updatedItem = await this.returnItemUseCase.execute(returnItemDto);
       return {
         message: `Item returned successfully`,
         item: {
