@@ -2,18 +2,27 @@ import { IsString, IsInt, IsOptional, IsNotEmpty, Min } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateItemDto {
-    @ApiProperty({ example: "Macbook Air" })
     @IsNotEmpty()
     @IsString()
+    @ApiProperty({
+        description: 'The name of the item',
+        example: 'Laptop',
+    })
     name: string;
 
-    @ApiPropertyOptional({ example: "Chip M1" })
     @IsString()
     @IsOptional()
+    @ApiPropertyOptional({
+        description: 'A brief description of the item',
+        example: 'A powerful gaming laptop with high-end specs.',
+    })
     description?: string;
 
-    @ApiProperty({default: 1 })
-    @IsInt({ message: 'quantity must be an integer' })
-    @Min(0, { message: 'quantity must be at least 0' })
-    quantity: number = 1;
+    @IsInt({ message: 'Quantity must be an integer' })
+    @Min(0, { message: 'Quantity must be at least 0' })
+    @ApiProperty({
+        description: 'The number of item to borrow',
+        example: 2,
+    })
+    quantity: number;
 }
