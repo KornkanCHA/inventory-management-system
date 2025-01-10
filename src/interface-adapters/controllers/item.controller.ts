@@ -60,7 +60,6 @@ export class ItemController {
     description: 'Fetch a specific item by ID.',
   })
   @ApiResponse({ status: 200, description: 'Item details retrieved successfully', type: Item })
-  @ApiResponse({ status: 404, description: 'Item not found' })
   async findById(@Param('id', ParseUUIDPipe) id: string): Promise<Item> {
     return this.getItemByIdUseCase.execute(id);
   }
@@ -71,7 +70,6 @@ export class ItemController {
     description: 'Create a new item in the inventory.',
   })
   @ApiResponse({ status: 201, description: 'The item has been created successfully', type: Item })
-  @ApiResponse({ status: 400, description: 'Invalid input data' })
   async create(@Body() creteItemDto: CreateItemDto): Promise<Item> {
     return this.createItemUseCase.execute(creteItemDto);
   }
@@ -82,7 +80,6 @@ export class ItemController {
     description: 'Update an existing item by ID.',
   })
   @ApiResponse({ status: 200, description: 'The item has been updated successfully', type: Item })
-  @ApiResponse({ status: 404, description: 'Item not found' })
   async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateItemDto: UpdateItemDto): Promise<Item> {
     const updatedItem = this.updateItemUseCase.execute(id, updateItemDto);
     return updatedItem;
@@ -94,7 +91,6 @@ export class ItemController {
     description: 'Delete an item by ID.',
   })
   @ApiResponse({ status: 200, description: 'Item has been deleted successfully' })
-  @ApiResponse({ status: 404, description: 'Item not found' })
   async delete(@Param('id', ParseUUIDPipe) id: string): Promise<Object> {
     const deletedItem = this.deleteItemUseCase.execute(id);
     return deletedItem;
@@ -106,7 +102,6 @@ export class ItemController {
     description: 'Borrow a specified quantity of an item from the inventory.',
   })
   @ApiResponse({ status: 200, description: 'Item borrowed successfully', schema: { example: { message: 'Item borrowed successfully', item: { id: 'UUID', name: 'Item Name', quantity: 10, borrowedQuantity: 5 } } } })
-  @ApiResponse({ status: 404, description: 'Item not found' })
   async borrow(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() borrowItemDto: BorrowItemDto
@@ -130,7 +125,6 @@ export class ItemController {
     description: 'Return a borrowed item to the inventory.',
   })
   @ApiResponse({ status: 200, description: 'Item returned successfully', schema: { example: { message: 'Item returned successfully', item: { id: 'UUID', name: 'Item Name', quantity: 10, borrowedQuantity: 3 } } } })
-  @ApiResponse({ status: 404, description: 'Item not found' })
   async return(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() returnItemDto: ReturnItemDto
