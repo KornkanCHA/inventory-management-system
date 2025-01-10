@@ -13,6 +13,7 @@ services:
       - ${EXTERNAL_APP_PORT}:${INTERNAL_APP_PORT}
     volumes:
       - .:/app
+      - /app/node_modules
     command: "npm run start:dev"
     networks:
       - nestjs_app_network
