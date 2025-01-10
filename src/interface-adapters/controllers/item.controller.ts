@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, HttpException, HttpStatus, ParseIntPipe} from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe} from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
 import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-case';
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
@@ -12,7 +12,6 @@ import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
 import { Item } from 'src/domain/entities/item.entity';
 import { BorrowItemDto } from 'src/application/items/dto/borrow-item.dto';
 import { ReturnItemDto } from 'src/application/items/dto/return-item.dto';
-import { ApiQuery } from '@nestjs/swagger';
 
 
 @Controller('items')
@@ -29,9 +28,6 @@ export class ItemController {
   ) {}
 
   @Get('search')
-  @ApiQuery({ name: 'query', type: String, description: 'Search term', required: true })
-  @ApiQuery({ name: 'sortBy', type: String, description: 'Field to sort by', required: false })
-  @ApiQuery({ name: 'order', enum: ['ASC', 'DESC'], description: 'Sort order (ASC or DESC)', required: false })
   async search(
     @Query('query') query: string,
     @Query('sortBy') sortBy?: string,
@@ -72,23 +68,17 @@ export class ItemController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() borrowItemDto: BorrowItemDto
   ): Promise<Object> {
-    try {
-      borrowItemDto.id = id;
-      const updatedItem = await this.borrowItemUseCase.execute(borrowItemDto);
-      return {
-        message: `Item borrowed successfully`,
-        item: {
-          id: updatedItem.id,
-          name: updatedItem.name,
-          quantity: updatedItem.quantity,
-          borrowedQuantity: updatedItem.borrowedQuantity
-        }
+    borrowItemDto.id = id;
+    const updatedItem = await this.borrowItemUseCase.execute(borrowItemDto);
+    return {
+      message: `Item borrowed successfully`,
+      item: {
+        id: updatedItem.id,
+        name: updatedItem.name,
+        quantity: updatedItem.quantity,
+        borrowedQuantity: updatedItem.borrowedQuantity
       }
-    } catch (error) {
-      throw new HttpException(
-        error.message,
-        error.status || HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    };
   }
 
   @Patch(':id/return')
@@ -96,23 +86,18 @@ export class ItemController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() returnItemDto: ReturnItemDto
   ): Promise<Object> {
-    try {
-      returnItemDto.id = id;
-      const updatedItem = await this.returnItemUseCase.execute(returnItemDto);
-      return {
-        message: `Item returned successfully`,
-        item: {
-          id: updatedItem.id,
-          name: updatedItem.name,
-          quantity: updatedItem.quantity,
-          borrowedQuantity: updatedItem.borrowedQuantity
-        }
+
+    returnItemDto.id = id;
+    const updatedItem = await this.returnItemUseCase.execute(returnItemDto);
+    return {
+      message: `Item returned successfully`,
+      item: {
+        id: updatedItem.id,
+        name: updatedItem.name,
+        quantity: updatedItem.quantity,
+        borrowedQuantity: updatedItem.borrowedQuantity
       }
-    } catch (error) {
-      throw new HttpException(
-        error.message,
-        error.status || HttpStatus.INTERNAL_SERVER_ERROR
-      )
-    }
-  }
+    };
+  } 
 }
+
