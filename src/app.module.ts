@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ItemsModule } from './application/items/item.use-cases.module';
+import { ItemsModule } from './application/items/use-cases/item.use-cases.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({

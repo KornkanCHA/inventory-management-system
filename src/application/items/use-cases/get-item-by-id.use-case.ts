@@ -5,10 +5,10 @@ import { ItemRepositoryImplement } from 'src/interface-adapters/repositories/ite
 export class GetItemByIdUseCase {
   constructor(private readonly itemRepository: ItemRepositoryImplement) {}
 
-  async execute(id: string) {
-    const item = await this.itemRepository.findById(id);
+  async execute(item_id: string) {
+    const item = await this.itemRepository.findById(item_id);
     if (!item) {
-      throw new NotFoundException(`Item with ID ${id} not found`);
+      throw new NotFoundException(`Item with ID ${item_id} not found`);
     }
     return item;
   }

@@ -17,7 +17,7 @@ export class CreateItemUseCase {
     );
 
     if (updateItem) {
-      await this.itemRepository.update(updateItem.id, {
+      await this.itemRepository.update(updateItem.item_id, {
         quantity: updateItem.quantity
       });
       return updateItem;

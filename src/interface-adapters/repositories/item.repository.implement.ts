@@ -17,8 +17,8 @@ export class ItemRepositoryImplement implements ItemRepository {
     return await this.itemRepository.find();
   }
 
-  async findById(id: string): Promise<Item | null> {
-    return await this.itemRepository.findOneBy({ id });
+  async findById(item_id: string): Promise<Item | null> {
+    return await this.itemRepository.findOneBy({ item_id });
   }
 
   async create(crateItemDto: CreateItemDto): Promise<Item> {
@@ -26,12 +26,12 @@ export class ItemRepositoryImplement implements ItemRepository {
     return this.itemRepository.save(newItem);
   }
 
-  async update(id: string, updateItemDto: UpdateItemDto): Promise<void> {
-    await this.itemRepository.update(id, updateItemDto);
+  async update(item_id: string, updateItemDto: UpdateItemDto): Promise<void> {
+    await this.itemRepository.update(item_id, updateItemDto);
   }
 
-  async delete(id: string): Promise<void> {
-    await this.itemRepository.delete(id);
+  async delete(item_id: string): Promise<void> {
+    await this.itemRepository.delete(item_id);
   }
 
   async search(query: string, sortBy = 'name', order: 'ASC' | 'DESC' = 'ASC'): Promise<Item[]> {

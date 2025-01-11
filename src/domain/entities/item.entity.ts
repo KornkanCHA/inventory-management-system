@@ -8,7 +8,7 @@ export class Item {
     description: 'The unique identifier of the item',
     example: 'd9b1e2ab-9f45-45b1-89b5-820f7243002b',
   })
-  id: string;
+  item_id: string;
 
   @Column({ length: 100 })
   @ApiProperty({

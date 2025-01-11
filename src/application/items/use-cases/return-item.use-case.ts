@@ -8,15 +8,15 @@ import { ReturnItemDto } from "../dto/return-item.dto";
 export class ReturnItemUseCase {
     constructor(private readonly itemRepository: ItemRepositoryImplement) {}
 
-    async execute(id: string, returnItemDto: ReturnItemDto): Promise<Item> {
-        const item = await this.itemRepository.findById(id);
+    async execute(item_id: string, returnItemDto: ReturnItemDto): Promise<Item> {
+        const item = await this.itemRepository.findById(item_id);
         if (!item) {
-            throw new NotFoundException(`Item with id ${id} not found`);
+            throw new NotFoundException(`Item with id ${item_id} not found`);
         }
         try {
             ItemBusinessRules.validateReturnItem(item, returnItemDto.quantity);
             const updatedItem = ItemBusinessRules.executeReturnItem(item, returnItemDto.quantity);
-            await this.itemRepository.update(id, updatedItem);
+            await this.itemRepository.update(item_id, updatedItem);
             return updatedItem
         } catch (error) {
             throw new BadRequestException(error.message);

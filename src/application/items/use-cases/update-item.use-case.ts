@@ -7,12 +7,12 @@ import { Item } from 'src/domain/entities/item.entity';
 export class UpdateItemUseCase {
   constructor(private readonly itemRepository: ItemRepositoryImplement) {}
 
-  async execute(id: string, updateItemDto: UpdateItemDto): Promise<Item> {
-    const item = await this.itemRepository.findById(id);
+  async execute(item_id: string, updateItemDto: UpdateItemDto): Promise<Item> {
+    const item = await this.itemRepository.findById(item_id);
     if (!item) {
-      throw new NotFoundException(`Item with id ${id} not found`);
+      throw new NotFoundException(`Item with id ${item_id} not found`);
     }
-    await this.itemRepository.update(id, updateItemDto);
-    return this.itemRepository.findById(id);
+    await this.itemRepository.update(item_id, updateItemDto);
+    return this.itemRepository.findById(item_id);
   }
 }

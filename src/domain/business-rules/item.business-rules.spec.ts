@@ -6,7 +6,7 @@ describe("ItemBusinessRules", () => {
 
     beforeEach(() => {
         sampleItem = {
-            id: "1",
+            item_id: "1",
             name: "Sample Item",
             description: "Test Item",
             quantity: 10,

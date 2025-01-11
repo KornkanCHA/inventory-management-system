@@ -60,8 +60,8 @@ export class ItemController {
     description: 'Fetch a specific item by ID.',
   })
   @ApiResponse({ status: 200, description: 'Item details retrieved successfully', type: Item })
-  async findById(@Param('id', ParseUUIDPipe) id: string): Promise<Item> {
-    return this.getItemByIdUseCase.execute(id);
+  async findById(@Param('id', ParseUUIDPipe) item_id: string): Promise<Item> {
+    return this.getItemByIdUseCase.execute(item_id);
   }
 
   @Post()
@@ -80,8 +80,8 @@ export class ItemController {
     description: 'Update an existing item by ID.',
   })
   @ApiResponse({ status: 200, description: 'The item has been updated successfully', type: Item })
-  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateItemDto: UpdateItemDto): Promise<Item> {
-    const updatedItem = this.updateItemUseCase.execute(id, updateItemDto);
+  async update(@Param('id', ParseUUIDPipe) item_id: string, @Body() updateItemDto: UpdateItemDto): Promise<Item> {
+    const updatedItem = this.updateItemUseCase.execute(item_id, updateItemDto);
     return updatedItem;
   }
 
@@ -91,8 +91,8 @@ export class ItemController {
     description: 'Delete an item by ID.',
   })
   @ApiResponse({ status: 200, description: 'Item has been deleted successfully' })
-  async delete(@Param('id', ParseUUIDPipe) id: string): Promise<Object> {
-    const deletedItem = this.deleteItemUseCase.execute(id);
+  async delete(@Param('id', ParseUUIDPipe) item_id: string): Promise<Object> {
+    const deletedItem = this.deleteItemUseCase.execute(item_id);
     return deletedItem;
   }
 
@@ -103,14 +103,14 @@ export class ItemController {
   })
   @ApiResponse({ status: 200, description: 'Item borrowed successfully', schema: { example: { message: 'Item borrowed successfully', item: { id: 'UUID', name: 'Item Name', quantity: 10, borrowedQuantity: 5 } } } })
   async borrow(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id', ParseUUIDPipe) item_id: string,
     @Body() borrowItemDto: BorrowItemDto
   ): Promise<Object> {
-    const updatedItem = await this.borrowItemUseCase.execute(id, borrowItemDto);
+    const updatedItem = await this.borrowItemUseCase.execute(item_id, borrowItemDto);
     return {
       message: `Item borrowed successfully`,
       item: {
-        id: updatedItem.id,
+        item_id: updatedItem.item_id,
         name: updatedItem.name,
         quantity: updatedItem.quantity,
         borrowedQuantity: updatedItem.borrowedQuantity
@@ -125,14 +125,14 @@ export class ItemController {
   })
   @ApiResponse({ status: 200, description: 'Item returned successfully', schema: { example: { message: 'Item returned successfully', item: { id: 'UUID', name: 'Item Name', quantity: 10, borrowedQuantity: 3 } } } })
   async return(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id', ParseUUIDPipe) item_id: string,
     @Body() returnItemDto: ReturnItemDto
   ): Promise<Object> {
-    const updatedItem = await this.returnItemUseCase.execute(id, returnItemDto);
+    const updatedItem = await this.returnItemUseCase.execute(item_id, returnItemDto);
     return {
       message: `Item returned successfully`,
       item: {
-        id: updatedItem.id,
+        item_id: updatedItem.item_id,
         name: updatedItem.name,
         quantity: updatedItem.quantity,
         borrowedQuantity: updatedItem.borrowedQuantity

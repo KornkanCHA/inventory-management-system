@@ -5,12 +5,12 @@ import { ItemRepositoryImplement } from 'src/interface-adapters/repositories/ite
 export class DeleteItemUseCase {
   constructor(private readonly itemRepository: ItemRepositoryImplement) {}
 
-  async execute(id: string): Promise<Object> {
-    const item = await this.itemRepository.findById(id);
+  async execute(item_id: string): Promise<Object> {
+    const item = await this.itemRepository.findById(item_id);
     if (!item) {
-      throw new NotFoundException(`Item with id ${id} not found`);
+      throw new NotFoundException(`Item with id ${item_id} not found`);
     }
-    await this.itemRepository.delete(id);
-    return { message: `Item with ID ${id} has been deleted successfully.` };
+    await this.itemRepository.delete(item_id);
+    return { message: `Item with ID ${item_id} has been deleted successfully.` };
   }
 }
