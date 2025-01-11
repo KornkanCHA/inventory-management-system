@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Item } from 'src/domain/entities/item.entity';
-import { ItemRepository } from 'src/interface-adapters/repositories/item.repository';
+import { ItemRepositoryImplement } from 'src/interface-adapters/repositories/item.repository.implement';
 import { CreateItemUseCase } from './use-cases/create-item.use-case';
 import { GetItemsUseCase } from './use-cases/get-items.use-case';
 import { GetItemByIdUseCase } from './use-cases/get-item-by-id.use-case';
@@ -15,7 +15,7 @@ import { ReturnItemUseCase } from './use-cases/return-item.use-case';
 @Module({
   imports: [TypeOrmModule.forFeature([Item])],
   providers: [
-    ItemRepository,
+    ItemRepositoryImplement,
     CreateItemUseCase,
     GetItemsUseCase,
     GetItemByIdUseCase,

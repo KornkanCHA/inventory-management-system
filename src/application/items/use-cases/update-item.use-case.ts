@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ItemRepository } from 'src/interface-adapters/repositories/item.repository';
+import { ItemRepositoryImplement } from 'src/interface-adapters/repositories/item.repository.implement';
 import { UpdateItemDto } from '../dto/update-item.dto';
 import { Item } from 'src/domain/entities/item.entity';
 
 @Injectable()
 export class UpdateItemUseCase {
-  constructor(private readonly itemRepository: ItemRepository) {}
+  constructor(private readonly itemRepository: ItemRepositoryImplement) {}
 
   async execute(id: string, updateItemDto: UpdateItemDto): Promise<Item> {
     const item = await this.itemRepository.findById(id);

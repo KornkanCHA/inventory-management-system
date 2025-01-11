@@ -4,9 +4,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Item } from '../../domain/entities/item.entity';
 import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
 import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
+import { ItemRepository } from 'src/domain/repositories/item.repository';
 
 @Injectable()
-export class ItemRepository {
+export class ItemRepositoryImplement implements ItemRepository {
   constructor(
     @InjectRepository(Item)
     private readonly itemRepository: Repository<Item>,
