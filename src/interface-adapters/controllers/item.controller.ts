@@ -106,8 +106,7 @@ export class ItemController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() borrowItemDto: BorrowItemDto
   ): Promise<Object> {
-    borrowItemDto.id = id;
-    const updatedItem = await this.borrowItemUseCase.execute(borrowItemDto);
+    const updatedItem = await this.borrowItemUseCase.execute(id, borrowItemDto);
     return {
       message: `Item borrowed successfully`,
       item: {
@@ -129,9 +128,7 @@ export class ItemController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() returnItemDto: ReturnItemDto
   ): Promise<Object> {
-
-    returnItemDto.id = id;
-    const updatedItem = await this.returnItemUseCase.execute(returnItemDto);
+    const updatedItem = await this.returnItemUseCase.execute(id, returnItemDto);
     return {
       message: `Item returned successfully`,
       item: {

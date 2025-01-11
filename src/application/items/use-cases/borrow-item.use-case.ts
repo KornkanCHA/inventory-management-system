@@ -8,16 +8,16 @@ import { BorrowItemDto } from "../dto/borrow-item.dto";
 export class BorrowItemUseCase {
     constructor(private readonly itemRepository: ItemRepository) {}
 
-    async execute(borrowItemDto: BorrowItemDto): Promise<Item> {
-        const item = await this.itemRepository.findById(borrowItemDto.id);
+    async execute(id: string, borrowItemDto: BorrowItemDto): Promise<Item> {
+        const item = await this.itemRepository.findById(id);
         if (!item) {
-            throw new NotFoundException(`Item with id ${borrowItemDto.id} not found`);
+            throw new NotFoundException(`Item with id ${id} not found`);
         }
         
         try {
             ItemBusinessRules.validateBorrowItem(item, borrowItemDto.quantity);
             const updatedItem = ItemBusinessRules.executeBorrowItem(item, borrowItemDto.quantity);
-            await this.itemRepository.update(borrowItemDto.id, updatedItem);
+            await this.itemRepository.update(id, updatedItem);
             return updatedItem;
         } catch (error) {
             throw new BadRequestException(error.message);

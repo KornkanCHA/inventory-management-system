@@ -6,7 +6,7 @@ export class UpdateItemDto {
     @IsString()
     @ApiPropertyOptional({
         description: 'The name of the item',
-        example: 'Laptop',
+        example: 'iPad',
     })
     name?: string;
 
@@ -14,7 +14,7 @@ export class UpdateItemDto {
     @IsString()
     @ApiPropertyOptional({
         description: 'A brief description of the item',
-        example: 'A powerful gaming laptop with high-end specs.',
+        example: 'Touch, draw, and type on one magical device.',
     })
     description?: string;
 

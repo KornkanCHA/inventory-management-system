@@ -6,7 +6,7 @@ export class CreateItemDto {
     @IsString()
     @ApiProperty({
         description: 'The name of the item',
-        example: 'Laptop',
+        example: 'iPad',
     })
     name: string;
 
@@ -14,7 +14,7 @@ export class CreateItemDto {
     @IsOptional()
     @ApiPropertyOptional({
         description: 'A brief description of the item',
-        example: 'A powerful gaming laptop with high-end specs.',
+        example: 'Lorem Ipsum.',
     })
     description?: string;
 
