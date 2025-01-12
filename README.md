@@ -1,43 +1,23 @@
 # Inventory Management System
-This project is currently in development at [Sprint 1](#sprint-1).
-## Table of Contents
-- [Getting Started](#getting-started)
-   - [Installation](#installation)
-   - [Run Server](#run-server)
-   - [Testing](#testing)
-- [Project Overview](#project-overview)
-   - [Objective](#objective)
-   - [Minimum Viable Product (MVP)](#minimum-viable-product-mvp)
-   - [Scope](#scope)
-   - [Technologies & Tools](#technologies-tools)
-   - [Architecture Design](#architecture-design)
-   - [Database Design](#database-design)
-- [Sprint Planning](#sprint-planning)
-    - [Sprint 1](#sprint-1)
-        - [Deliverables](#deliverables)
-        - [API Endpoints](#api-endpoints)
 
 ## Getting Started
 
 ### Installation
 
-Install Inventory Management System with npm.
+Install and start project with Docker
 
 ```
 git clone https://github.com/KornkanCHA/inventory-management-system.git
 cd inventory-management-system
-npm install
+docker compose up --build
 ```
 
-### Run Server
-Run the following command to start server.
-```
-npm run start
-```
-The API documentation from Swagger can be found at http://localhost:3000/api.
+The API documentation from Swagger can be found at http://localhost:8000/api.
 
-### Testing
-Run the following command to execute unit tests.
+## Testing
+
+Run the following command to execute tests.
+
 ```
 npm test
 ```
@@ -46,12 +26,7 @@ npm test
 
 ### Objective
 
-Develop Back End system by using NestJS framework for borrowing and returning inventory within the university to reduce errors and increase convenience for users.
-
-### Minimum Viable Product (MVP)
-
-- The system supports Create, Read, Update, and Delete (CRUD) operations for Items, Users, and Loans via API endpoints.
-- The system allows users to borrow items and all loan transactions are recorded, so admin can review the borrowing history, including the item, the user, the borrow date, and the return date
+Develop Back End system by using NestJS framework for borrowing and returning inventory within the university to reduce errors and increase convenience for admin.
 
 ### Scope
 
@@ -65,85 +40,61 @@ Develop Back End system by using NestJS framework for borrowing and returning in
 - Swagger: API Documentation.
 - Jest: Testing.
 
-### Architecture Design
-
-I use the Clean Architecture in my design, which helps the system to be organized, easy to understand and develop.
-
-Here is project source directory:
-
-```
-src
-├── domain -  Layer 1 (inner layer): Contains the data structure of the data in this system
-│   └── entities
-├── application - Layer 2: What we can do in this system Ex. CRUD
-│   └── items
-│       ├── dto
-│       └── use-cases
-├── interface-adapters - Layer 3: Communicate with internal and external layers (handle requests & responses)
-│   └── controllers
-└── infrastructure - Layer 4: Interact with database
-    ├── data
-    └── repositories
-```
-
 ### Database Design
 
-The system use a **MySQL** database to store data. Below is the database schema:
+The system use a **MySQL** database to store data.
 
-Tables:
-- Items
-   - `id`: Primary Key (Unique identifier for each item, stored as UUID)
-   - `name`: String (Name of the item)
-   - `description`: String (Description of the item, nullable)
-   - `status`: Enum ('Available', 'Unavailable') (Status of the item)
-   - `created_at`: DateTime (Date and time when the record was created)
-   - `updated_at`: DateTime (Date and time when the record was last updated)
-- Users
-   - `id`: Primary Key (Unique identifier for each user, stored as UUID)
-   - `username`: String (User's unique username)
-   - `email`: String (User's email address)
-   - `password`: String (User's password, hashed)
-   - `role`: Enum ('User', 'Admin) (User role)
-   - `created_at`: DateTime (Date and time when the record was created)
-   - `updated_at`: DateTime (Date and time when the record was last updated)
-- Loans
-   - `id`: Primary Key (Unique identifier for each loan, stored as UUID)
-   - `user_id`: Foreign Key (References `Users.id`)
-   - `item_id`: Foreign Key (References `Items.id`)
-   - `borrowed_date`: DateTime (The date the item was borrowed)
-   - `return_date`: DateTime (The date the item was returned, nullable)
+#### Items Table Structure
 
-## Sprint Planning
+##### `item_id` (Primary Key)
+- **Type**: UUID
+- **Description**: A unique identifier for each item in the inventory. This field is automatically generated and ensures that each item is distinct.
+- **Example**: `d9b1e2ab-9f45-45b1-89b5-820f7243002b`
 
-Sprint | Week | Deliverables
-:---: | :---: | ---
-1 | 1 | CRUD for Items + Unit Test + Swagger
-2 | 2 | CRUD for Users + Unit Test + Swagger
-3 | 3 | CRUD for Loans + Unit Test + Swagger
-4 | 4 | Integration Tests + End-to-End Test + Final Documentation
+##### `name`
+- **Type**: String (up to 100 characters)
+- **Description**: The name of the item in the inventory. This field is required and should describe the item clearly, such as "Laptop," "Printer," etc.
+- **Example**: `Laptop`
 
-### Sprint 1
+##### `description` (Optional)
+- **Type**: Text (nullable)
+- **Description**: A brief description of the item. This field provides additional details about the item, such as its features or specifications. It is optional and can be left empty if not necessary.
+- **Example**: `A powerful gaming laptop with high-end specs.`
 
-In sprint 1, I focused on items table and used in-memory database instead of MySQL to preview the project and make it easier to setup.
+##### `quantity`
+- **Type**: Integer
+- **Description**: The total quantity of the item available in stock. This field represents how many units of the item are available for borrowing or sale.
+- **Example**: `10`
 
-Start project by following [getting started section](#getting-started). You will found API documentation from Swagger at http://localhost:3000/api.
+##### `borrowedQuantity`
+- **Type**: Integer (default value 0)
+- **Description**: The number of items that have been borrowed out from the inventory. This value is automatically initialized to 0, and it updates when items are borrowed or returned.
+- **Example**: `3`
 
-#### Deliverables
+##### `createdAt`
+- **Type**: Timestamp (auto-generated)
+- **Description**: The timestamp representing when the item was created. This field is automatically set when the item is first added to the database and cannot be manually modified.
+- **Example**: `2025-01-10T12:34:56Z`
 
-- Implemented the ability to create, read, update, and delete (CRUD) Items through API endpoints.
-- Developed unit tests to verify the correctness of the item repository and item use cases.
-- Integrated Swagger for interactive interface where developers can view the available Items API, parameters, and responses.
+##### `updatedAt`
+- **Type**: Timestamp (auto-updated)
+- **Description**: The timestamp representing when the item was last updated. This field is automatically updated every time the item is modified, ensuring that the database reflects the most recent change.
+- **Example**: `2025-01-10T12:34:56Z`
 
 #### API Endpoints
-This is API Endpoints for CRUD item, with a base URL at http://localhost:3000/items.
+You can access the API endpoints for CRUD operations on items at the base URL: http://localhost:8000/. 
+For detailed API documentation, please refer to the Swagger UI at http://localhost:8000/api.
 
-| Method | Endpoint         | Description                             |
-|--------|------------------|-----------------------------------------|
-| GET    | `/`              | Get all items                           |
-| GET    | `/:id`           | Get a specific item by ID               |
-| POST   | `/`              | Create a new item                       |
-| PATCH  | `/:id`           | Update an existing item                 |
-| DELETE | `/:id`           | Delete an item by ID                    |
+| Method | Endpoint                   | Description                                                              |
+|--------|----------------------------|--------------------------------------------------------------------------|
+| GET    | /items/search              | Search for items by query with optional sorting and ordering.            |
+| GET    | /items                     | Fetch a list of all available items.                                     |
+| GET    | /items/:id                 | Fetch a specific item by ID.                                             |
+| POST   | /items                     | Create a new item in the inventory.                                      |
+| PATCH  | /items/:id                 | Update an existing item by ID.                                           |
+| DELETE | /items/:id                 | Delete an item by ID.                                                    |
+| PATCH  | /items/:id/borrow          | Borrow a specified quantity of an item from the inventory.               |
+| PATCH  | /items/:id/return          | Return a borrowed item to the inventory.                                 |
 
 
 
