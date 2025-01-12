@@ -11,9 +11,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-    .setTitle('Inventory Management API') 
+    .setTitle('Inventory Management System') 
     .setDescription('API documentation for managing items')
-    .setVersion('1.0')
+    .setVersion('2.0')
     .build(); 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
