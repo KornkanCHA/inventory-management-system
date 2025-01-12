@@ -84,7 +84,6 @@ The system use a **MySQL** database to store data.
 #### API Endpoints
 You can access the API endpoints for CRUD operations on items at the base URL: http://localhost:8000/. 
 For detailed API documentation, please refer to the Swagger UI at http://localhost:8000/api.
-<<<<<<< HEAD
 
 | Method | Endpoint                   | Description                                                              |
 |--------|----------------------------|--------------------------------------------------------------------------|
@@ -96,20 +95,6 @@ For detailed API documentation, please refer to the Swagger UI at http://localho
 | DELETE | /items/:id                 | Delete an item by ID.                                                    |
 | PATCH  | /items/:id/borrow          | Borrow a specified quantity of an item from the inventory.               |
 | PATCH  | /items/:id/return          | Return a borrowed item to the inventory.                                 |
-=======
-
-| Method | Endpoint                   | Description                                                              |
-|--------|----------------------------|--------------------------------------------------------------------------|
-| GET    | /items/search              | Search for items by query with optional sorting and ordering.            |
-| GET    | /items                     | Fetch a list of all available items.                                     |
-| GET    | /items/:id                 | Fetch a specific item by ID.                                             |
-| POST   | /items                     | Create a new item in the inventory.                                      |
-| PATCH  | /items/:id                 | Update an existing item by ID.                                           |
-| DELETE | /items/:id                 | Delete an item by ID.                                                    |
-| PATCH  | /items/:id/borrow          | Borrow a specified quantity of an item from the inventory.               |
-| PATCH  | /items/:id/return          | Return a borrowed item to the inventory.                                 |
-
->>>>>>> docs/update-swagger
 
 
 
