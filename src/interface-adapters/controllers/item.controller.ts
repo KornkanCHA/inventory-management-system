@@ -35,7 +35,7 @@ export class ItemController {
   @ApiQuery({ name: 'query', type: String, description: 'Search term used to find items', required: true, example: "mo"})
   @ApiQuery({ name: 'sortBy', type: String, description: 'Field to sort the results by (optional)', required: false, example: "quantity"})
   @ApiQuery({ name: 'order', enum: ['ASC', 'DESC'], description: 'Sort order, either ascending or descending (optional)', required: false })
-  @ApiResponse({ status: 200, description: 'List of items matching the search query' })
+  @ApiResponse({ status: 200, description: 'List of items matching the search query', type: [Item] })
   async search(
     @Query('query') query: string,
     @Query('sortBy') sortBy?: string,
