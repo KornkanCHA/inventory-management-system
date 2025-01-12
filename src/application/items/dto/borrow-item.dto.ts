@@ -6,7 +6,7 @@ export class BorrowItemDto {
     @Min(1, { message: 'borrow quantity must be at least 1' })
     @ApiProperty({
         description: 'The number of item to borrow',
-        example: 2,
+        example: 1,
     })
     quantity: number;
 }

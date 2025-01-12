@@ -32,10 +32,10 @@ export class ItemController {
     summary: 'Search for items',
     description: 'Search items by query with optional sorting and ordering.',
   })
-  @ApiQuery({ name: 'query', type: String, description: 'Search term used to find items', required: true, example: "mac"})
+  @ApiQuery({ name: 'query', type: String, description: 'Search term used to find items', required: true, example: "mo"})
   @ApiQuery({ name: 'sortBy', type: String, description: 'Field to sort the results by (optional)', required: false, example: "quantity"})
   @ApiQuery({ name: 'order', enum: ['ASC', 'DESC'], description: 'Sort order, either ascending or descending (optional)', required: false })
-  @ApiResponse({ status: 200, description: 'List of items matching the search query', type: [Item] })
+  @ApiResponse({ status: 200, description: 'List of items matching the search query' })
   async search(
     @Query('query') query: string,
     @Query('sortBy') sortBy?: string,
@@ -49,7 +49,7 @@ export class ItemController {
     summary: 'Get all items',
     description: 'Fetch a list of all available items.',
   })
-  @ApiResponse({ status: 200, description: 'A list of all items', type: [Item] })
+  @ApiResponse({ status: 200, description: 'A list of all items' })
   async findAll(): Promise<Item[]> {
     return this.getItemsUseCase.execute();
   }
@@ -59,7 +59,7 @@ export class ItemController {
     summary: 'Get item by ID',
     description: 'Fetch a specific item by ID.',
   })
-  @ApiResponse({ status: 200, description: 'Item details retrieved successfully', type: Item })
+  @ApiResponse({ status: 200, description: 'Item details retrieved successfully' })
   async findById(@Param('id', ParseUUIDPipe) item_id: string): Promise<Item> {
     return this.getItemByIdUseCase.execute(item_id);
   }
@@ -69,7 +69,7 @@ export class ItemController {
     summary: 'Create new item',
     description: 'Create a new item in the inventory.',
   })
-  @ApiResponse({ status: 201, description: 'The item has been created successfully', type: Item })
+  @ApiResponse({ status: 201, description: 'The item has been created successfully' })
   async create(@Body() creteItemDto: CreateItemDto): Promise<Item> {
     return this.createItemUseCase.execute(creteItemDto);
   }
@@ -79,7 +79,7 @@ export class ItemController {
     summary: 'Update item',
     description: 'Update an existing item by ID.',
   })
-  @ApiResponse({ status: 200, description: 'The item has been updated successfully', type: Item })
+  @ApiResponse({ status: 200, description: 'The item has been updated successfully' })
   async update(@Param('id', ParseUUIDPipe) item_id: string, @Body() updateItemDto: UpdateItemDto): Promise<Item> {
     const updatedItem = this.updateItemUseCase.execute(item_id, updateItemDto);
     return updatedItem;
@@ -101,7 +101,7 @@ export class ItemController {
     summary: 'Borrow item',
     description: 'Borrow a specified quantity of an item from the inventory.',
   })
-  @ApiResponse({ status: 200, description: 'Item borrowed successfully', schema: { example: { message: 'Item borrowed successfully', item: { id: 'UUID', name: 'Item Name', quantity: 10, borrowedQuantity: 5 } } } })
+  @ApiResponse({ status: 200, description: 'Item borrowed successfully' })
   async borrow(
     @Param('id', ParseUUIDPipe) item_id: string,
     @Body() borrowItemDto: BorrowItemDto
@@ -123,7 +123,7 @@ export class ItemController {
     summary: 'Return item',
     description: 'Return a borrowed item to the inventory.',
   })
-  @ApiResponse({ status: 200, description: 'Item returned successfully', schema: { example: { message: 'Item returned successfully', item: { id: 'UUID', name: 'Item Name', quantity: 10, borrowedQuantity: 3 } } } })
+  @ApiResponse({ status: 200, description: 'Item returned successfully' })
   async return(
     @Param('id', ParseUUIDPipe) item_id: string,
     @Body() returnItemDto: ReturnItemDto
