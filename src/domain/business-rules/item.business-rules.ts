@@ -1,10 +1,11 @@
 import { Item } from "../entities/item.entity";
+import { BadRequestException } from "@nestjs/common";
 
 /**
  * Handles business logic for item operations, including validation and updates.
  */
 export class ItemBusinessRules {
-    // Common error messages
+    // Error messages
     private static readonly ERROR_MESSAGES = {
         INVALID_QUANTITY: 'Quantity must be a positive number.',
         INSUFFICIENT_QUANTITY: 'Insufficient quantity available.',
@@ -19,7 +20,7 @@ export class ItemBusinessRules {
      */
     private static validatePositiveQuantity(quantity: number, operation: string): void {
         if (isNaN(quantity) || quantity <= 0) {
-            throw new Error(`${operation} quantity must be a valid positive number.`);
+            throw new BadRequestException(`${operation} quantity must be a valid positive number.`);
         }
     }
 
@@ -55,7 +56,7 @@ export class ItemBusinessRules {
         this.validatePositiveQuantity(borrowQuantity, 'Borrow');
 
         if (item.quantity < borrowQuantity) {
-            throw new Error(this.ERROR_MESSAGES.INSUFFICIENT_QUANTITY);
+            throw new BadRequestException(this.ERROR_MESSAGES.INSUFFICIENT_QUANTITY);
         }
 
         item.quantity -= borrowQuantity;
@@ -73,7 +74,7 @@ export class ItemBusinessRules {
         this.validatePositiveQuantity(returnQuantity, 'Return');
 
         if (item.borrowedQuantity < returnQuantity) {
-            throw new Error(this.ERROR_MESSAGES.EXCEEDS_BORROWED);
+            throw new BadRequestException(this.ERROR_MESSAGES.EXCEEDS_BORROWED);
         }
 
         item.quantity += returnQuantity;

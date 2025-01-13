@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe} from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, UseInterceptors, UsePipes } from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
-import { GetItemsUseCase } from 'src/application/items/use-cases/get-items.use-case';
-import { GetItemByIdUseCase } from 'src/application/items/use-cases/get-item-by-id.use-case';
+import { GetItemsUseCase } from 'src/application/items/use-cases/find-items.use-case';
+import { GetItemByIdUseCase } from 'src/application/items/use-cases/find-item-by-id.use-case';
 import { UpdateItemUseCase } from 'src/application/items/use-cases/update-item.use-case';
 import { DeleteItemUseCase } from 'src/application/items/use-cases/delete-item.use-case';
 import { SearchItemUseCase } from 'src/application/items/use-cases/search-item.use-case';
@@ -13,8 +13,12 @@ import { Item } from 'src/domain/entities/item.entity';
 import { BorrowItemDto } from 'src/application/items/dto/borrow-item.dto';
 import { ReturnItemDto } from 'src/application/items/dto/return-item.dto';
 import { ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { ResponseInterceptor } from '../interceptors/response.interceptor';
+import { ValidationPipe } from '@nestjs/common';
 
 @Controller('items')
+@UseInterceptors(ResponseInterceptor)
+@UsePipes(new ValidationPipe())
 export class ItemController {
   constructor(
     private readonly createItemUseCase: CreateItemUseCase,
@@ -70,8 +74,8 @@ export class ItemController {
     description: 'Create a new item in the inventory.',
   })
   @ApiResponse({ status: 201, description: 'The item has been created successfully' })
-  async create(@Body() creteItemDto: CreateItemDto): Promise<Item> {
-    return this.createItemUseCase.execute(creteItemDto);
+  async create(@Body() createItemDto: CreateItemDto): Promise<Item> {
+    return this.createItemUseCase.execute(createItemDto);
   }
 
   @Patch(':id')
@@ -80,9 +84,11 @@ export class ItemController {
     description: 'Update an existing item by ID.',
   })
   @ApiResponse({ status: 200, description: 'The item has been updated successfully' })
-  async update(@Param('id', ParseUUIDPipe) item_id: string, @Body() updateItemDto: UpdateItemDto): Promise<Item> {
-    const updatedItem = this.updateItemUseCase.execute(item_id, updateItemDto);
-    return updatedItem;
+  async update(
+    @Param('id', ParseUUIDPipe) item_id: string,
+    @Body() updateItemDto: UpdateItemDto
+  ): Promise<Item> {
+    return this.updateItemUseCase.execute(item_id, updateItemDto);
   }
 
   @Delete(':id')
@@ -92,8 +98,7 @@ export class ItemController {
   })
   @ApiResponse({ status: 200, description: 'Item has been deleted successfully' })
   async delete(@Param('id', ParseUUIDPipe) item_id: string): Promise<Object> {
-    const deletedItem = this.deleteItemUseCase.execute(item_id);
-    return deletedItem;
+    return this.deleteItemUseCase.execute(item_id);
   }
 
   @Patch(':id/borrow')
@@ -105,17 +110,8 @@ export class ItemController {
   async borrow(
     @Param('id', ParseUUIDPipe) item_id: string,
     @Body() borrowItemDto: BorrowItemDto
-  ): Promise<Object> {
-    const updatedItem = await this.borrowItemUseCase.execute(item_id, borrowItemDto);
-    return {
-      message: `Item borrowed successfully`,
-      item: {
-        item_id: updatedItem.item_id,
-        name: updatedItem.name,
-        quantity: updatedItem.quantity,
-        borrowedQuantity: updatedItem.borrowedQuantity
-      }
-    };
+  ): Promise<Item> {
+    return this.borrowItemUseCase.execute(item_id, borrowItemDto);
   }
 
   @Patch(':id/return')
@@ -127,17 +123,7 @@ export class ItemController {
   async return(
     @Param('id', ParseUUIDPipe) item_id: string,
     @Body() returnItemDto: ReturnItemDto
-  ): Promise<Object> {
-    const updatedItem = await this.returnItemUseCase.execute(item_id, returnItemDto);
-    return {
-      message: `Item returned successfully`,
-      item: {
-        item_id: updatedItem.item_id,
-        name: updatedItem.name,
-        quantity: updatedItem.quantity,
-        borrowedQuantity: updatedItem.borrowedQuantity
-      }
-    };
+  ): Promise<Item> {
+    return this.returnItemUseCase.execute(item_id, returnItemDto);
   } 
 }
-

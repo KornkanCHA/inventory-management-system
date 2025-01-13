@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { Item } from "src/domain/entities/item.entity";
-import { GetItemByIdUseCase } from "src/application/items/use-cases/get-item-by-id.use-case";
+import { GetItemByIdUseCase } from "src/application/items/use-cases/find-item-by-id.use-case";
 import { ItemRepository } from "src/infrastructure/repositories/item.repository";
 import { NotFoundException } from "@nestjs/common";
 

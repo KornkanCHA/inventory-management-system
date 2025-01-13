@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { Item } from "src/domain/entities/item.entity";
-import { GetItemsUseCase } from "src/application/items/use-cases/get-items.use-case";
+import { GetItemsUseCase } from "src/application/items/use-cases/find-items.use-case";
 import { ItemRepository } from "src/infrastructure/repositories/item.repository";
 
 describe('GetItemsUseCase', () => {
