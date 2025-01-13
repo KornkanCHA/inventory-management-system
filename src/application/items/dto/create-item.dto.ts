@@ -19,7 +19,7 @@ export class CreateItemDto {
     description?: string;
 
     @IsInt({ message: 'Quantity must be an integer' })
-    @Min(0, { message: 'Quantity must be at least 0' })
+    @Min(1, { message: 'Quantity must be at least 1' })
     @ApiProperty({
         description: 'The number of item to borrow',
         example: 2,
