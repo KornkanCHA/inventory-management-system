@@ -1,22 +1,43 @@
 import { Item } from "../entities/item.entity";
 
 /**
- * Handles business logic for item operations.
+ * Handles business logic for item operations, including validation and updates.
  */
 export class ItemBusinessRules {
+    // Common error messages
+    private static readonly ERROR_MESSAGES = {
+        INVALID_QUANTITY: 'Quantity must be a positive number.',
+        INSUFFICIENT_QUANTITY: 'Insufficient quantity available.',
+        EXCEEDS_BORROWED: 'Return quantity exceeds borrowed quantity.',
+    };
+
     /**
-     * Combines qunatity of items if the name is duplicated.
+     * Validates that the provided quantity is a positive number.
+     * @param quantity - The quantity to validate.
+     * @param operation - The context of the validation (e.g., 'Borrow', 'Return').
+     * @throws If the quantity is not valid.
+     */
+    private static validatePositiveQuantity(quantity: number, operation: string): void {
+        if (isNaN(quantity) || quantity <= 0) {
+            throw new Error(`${operation} quantity must be a valid positive number.`);
+        }
+    }
+
+    /**
+     * Combines the quantity of items if the name is duplicated.
      * @param name - The name of the item.
-     * @param qunatity - The quantity to add.
+     * @param quantity - The quantity to add.
      * @param existingItems - List of existing items to check.
-     * @return The updated item or null if duplicate not found.
+     * @returns The updated item or null if no duplicate is found.
      */
     static validateUniqueItem(
         name: string,
         quantity: number,
         existingItems: Item[]
     ): Item | null {
-        const existingItem = existingItems.find(item => item.name.toLowerCase() === name.toLowerCase());
+        const existingItem = existingItems.find(
+            item => item.name.toLowerCase() === name.toLowerCase()
+        );
         if (existingItem) {
             existingItem.quantity += quantity;
             return existingItem;
@@ -25,56 +46,36 @@ export class ItemBusinessRules {
     }
 
     /**
-     * Check if the borrow quantity is valid.
-     * @param item 
-     * @param borrowQuantity 
-     * @throws If the quantity is less than 1 or not enough items are available.
-     */
-    static validateBorrowItem(item: Item, borrowQuantity: number): void {
-        if (borrowQuantity < 1) {
-            throw new Error('Borrow quantity not be less than 1');
-        }
-
-        if (item.quantity < borrowQuantity) {
-            throw new Error('Not enough quantity available');
-        }
-    }
-
-    /**
-     * Update the item quantity when borrowed.
+     * Validates and processes borrowing an item.
      * @param item - The item to borrow.
      * @param borrowQuantity - The quantity to borrow.
-     * @returns The updated item.
+     * @throws If borrow quantity is invalid or insufficient stock.
      */
-    static executeBorrowItem(item: Item, borrowQuantity: number): Item {
+    static validateAndBorrowItem(item: Item, borrowQuantity: number): Item {
+        this.validatePositiveQuantity(borrowQuantity, 'Borrow');
+
+        if (item.quantity < borrowQuantity) {
+            throw new Error(this.ERROR_MESSAGES.INSUFFICIENT_QUANTITY);
+        }
+
         item.quantity -= borrowQuantity;
         item.borrowedQuantity += borrowQuantity;
         return item;
     }
 
     /**
-     * Check if the return quantity is valid.
-     * @param item 
-     * @param returnQuantity 
-     * @throws If the quantity is less than 1 or not enough borrowed quantity are available.
-     */
-    static validateReturnItem(item: Item, returnQuantity: number): void {
-        if (returnQuantity < 1) {
-            throw new Error('Return quantity not be less than 1')
-        }
-        
-        if (item.borrowedQuantity < returnQuantity) {
-            throw new Error('Invalid return quantity');
-        }
-    }
-
-    /**
-     * Update the item quantity when returned.
+     * Validates and processes returning an item.
      * @param item - The item to return.
      * @param returnQuantity - The quantity to return.
-     * @returns The updated item.
+     * @throws If return quantity is invalid or exceeds borrowed quantity.
      */
-    static executeReturnItem(item: Item, returnQuantity: number): Item {
+    static validateAndReturnItem(item: Item, returnQuantity: number): Item {
+        this.validatePositiveQuantity(returnQuantity, 'Return');
+
+        if (item.borrowedQuantity < returnQuantity) {
+            throw new Error(this.ERROR_MESSAGES.EXCEEDS_BORROWED);
+        }
+
         item.quantity += returnQuantity;
         item.borrowedQuantity -= returnQuantity;
         return item;

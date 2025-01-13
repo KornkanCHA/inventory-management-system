@@ -21,7 +21,7 @@ describe("ItemBusinessRules", () => {
             const items = [sampleItem];
             const result = ItemBusinessRules.validateUniqueItem("Sample Item", 5, items);
 
-            expect(result).toBe(sampleItem);
+            expect(result).toEqual(sampleItem);
             expect(result?.quantity).toBe(15);
         });
 
@@ -33,58 +33,58 @@ describe("ItemBusinessRules", () => {
         });
     });
 
-    describe("validateBorrowItem", () => {
-        it("should throw an error if borrow quantity is less than 1", () => {
+    describe("validateAndBorrowItem", () => {
+        it("should throw an error if borrow quantity is invalid", () => {
             expect(() => {
-                ItemBusinessRules.validateBorrowItem(sampleItem, 0);
-            }).toThrow("Borrow quantity not be less than 1");
+                ItemBusinessRules.validateAndBorrowItem(sampleItem, 0);
+            }).toThrow("Borrow quantity must be a valid positive number.");
         });
 
-        it("should throw an error if not enough quantity is available", () => {
+        it("should throw an error if borrow quantity exceeds available stock", () => {
             expect(() => {
-                ItemBusinessRules.validateBorrowItem(sampleItem, 11);
-            }).toThrow("Not enough quantity available");
+                ItemBusinessRules.validateAndBorrowItem(sampleItem, 11);
+            }).toThrow("Insufficient quantity available.");
         });
 
         it("should pass validation for valid borrow quantity", () => {
             expect(() => {
-                ItemBusinessRules.validateBorrowItem(sampleItem, 5);
+                ItemBusinessRules.validateAndBorrowItem(sampleItem, 5);
             }).not.toThrow();
         });
     });
 
-    describe("executeBorrowItem", () => {
-        it("should update the item's quantity and borrowedQuantity", () => {
-            const updatedItem = ItemBusinessRules.executeBorrowItem(sampleItem, 3);
+    describe("validateAndReturnItem", () => {
+        it("should throw an error if return quantity is invalid", () => {
+            expect(() => {
+                ItemBusinessRules.validateAndReturnItem(sampleItem, 0);
+            }).toThrow("Return quantity must be a valid positive number.");
+        });
+
+        it("should throw an error if return quantity exceeds borrowed quantity", () => {
+            expect(() => {
+                ItemBusinessRules.validateAndReturnItem(sampleItem, 3);
+            }).toThrow("Return quantity exceeds borrowed quantity.");
+        });
+
+        it("should pass validation for valid return quantity", () => {
+            expect(() => {
+                ItemBusinessRules.validateAndReturnItem(sampleItem, 2);
+            }).not.toThrow();
+        });
+    });
+
+    describe("validateAndBorrowItem (execution)", () => {
+        it("should correctly update quantity and borrowedQuantity when borrowing", () => {
+            const updatedItem = ItemBusinessRules.validateAndBorrowItem(sampleItem, 3);
 
             expect(updatedItem.quantity).toBe(7);
             expect(updatedItem.borrowedQuantity).toBe(5);
         });
     });
 
-    describe("validateReturnItem", () => {
-        it("should throw an error if return quantity is less than 1", () => {
-            expect(() => {
-                ItemBusinessRules.validateReturnItem(sampleItem, 0);
-            }).toThrow("Return quantity not be less than 1");
-        });
-
-        it("should throw an error if return quantity exceeds borrowedQuantity", () => {
-            expect(() => {
-                ItemBusinessRules.validateReturnItem(sampleItem, 3);
-            }).toThrow("Invalid return quantity");
-        });
-
-        it("should pass validation for valid return quantity", () => {
-            expect(() => {
-                ItemBusinessRules.validateReturnItem(sampleItem, 2);
-            }).not.toThrow();
-        });
-    });
-
-    describe("executeReturnItem", () => {
-        it("should update the item's quantity and borrowedQuantity", () => {
-            const updatedItem = ItemBusinessRules.executeReturnItem(sampleItem, 2);
+    describe("validateAndReturnItem (execution)", () => {
+        it("should correctly update quantity and borrowedQuantity when returning", () => {
+            const updatedItem = ItemBusinessRules.validateAndReturnItem(sampleItem, 2);
 
             expect(updatedItem.quantity).toBe(12);
             expect(updatedItem.borrowedQuantity).toBe(0);

@@ -15,8 +15,7 @@ export class BorrowItemUseCase {
         }
         
         try {
-            ItemBusinessRules.validateBorrowItem(item, borrowItemDto.quantity);
-            const updatedItem = ItemBusinessRules.executeBorrowItem(item, borrowItemDto.quantity);
+            const updatedItem = ItemBusinessRules.validateAndBorrowItem(item, borrowItemDto.quantity);
             await this.itemRepository.update(item_id, updatedItem);
             return updatedItem;
         } catch (error) {
