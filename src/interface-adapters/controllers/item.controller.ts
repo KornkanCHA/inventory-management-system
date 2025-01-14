@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, UseInterceptors, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, ParseUUIDPipe, UseInterceptors, UsePipes} from '@nestjs/common';
 import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
 import { GetItemsUseCase } from 'src/application/items/use-cases/find-items.use-case';
 import { GetItemByIdUseCase } from 'src/application/items/use-cases/find-item-by-id.use-case';
@@ -12,13 +12,18 @@ import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
 import { Item } from 'src/domain/entities/item.entity';
 import { BorrowItemDto } from 'src/application/items/dto/borrow-item.dto';
 import { ReturnItemDto } from 'src/application/items/dto/return-item.dto';
-import { ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ResponseInterceptor } from '../interceptors/response.interceptor';
 import { ValidationPipe } from '@nestjs/common';
 
+/**
+ * Controller for managing inventory items.
+ * Provides endpoints for creating, retrieving, updating, deleting, searching, borrowing, and returning items.
+ */
 @Controller('items')
 @UseInterceptors(ResponseInterceptor)
-@UsePipes(new ValidationPipe())
+@UsePipes(ValidationPipe)
+@ApiTags('Items')
 export class ItemController {
   constructor(
     private readonly createItemUseCase: CreateItemUseCase,
@@ -31,6 +36,13 @@ export class ItemController {
     private readonly returnItemUseCase: ReturnItemUseCase
   ) {}
 
+  /**
+   * Search for items by a query.
+   * @param query - The search term to filter items.
+   * @param sortBy - The field to sort the results (optional).
+   * @param order - The sort order, 'ASC' or 'DESC' (default: 'ASC').
+   * @returns A list of items matching the search criteria.
+   */
   @Get('search')
   @ApiOperation({
     summary: 'Search for items',
@@ -48,6 +60,10 @@ export class ItemController {
     return this.searchItemUseCase.execute(query, sortBy, order);
   }
 
+  /**
+   * Get all items.
+   * @returns A list of all items.
+   */
   @Get()
   @ApiOperation({
     summary: 'Get all items',
@@ -58,6 +74,11 @@ export class ItemController {
     return this.getItemsUseCase.execute();
   }
 
+  /**
+   * Get item by ID.
+   * @param item_id - The unique ID of the item.
+   * @returns The details of the requested item.
+   */
   @Get(':id')
   @ApiOperation({
     summary: 'Get item by ID',
@@ -68,6 +89,11 @@ export class ItemController {
     return this.getItemByIdUseCase.execute(item_id);
   }
 
+  /**
+   * Create a new item.
+   * @param createItemDto - The details of the item to create.
+   * @returns The created item.
+   */
   @Post()
   @ApiOperation({
     summary: 'Create new item',
@@ -78,6 +104,12 @@ export class ItemController {
     return this.createItemUseCase.execute(createItemDto);
   }
 
+  /**
+   * Update an item by ID.
+   * @param item_id - The unique ID of the item to update.
+   * @param updateItemDto - The new details for the item.
+   * @returns The updated item.
+   */
   @Patch(':id')
   @ApiOperation({
     summary: 'Update item',
@@ -91,6 +123,11 @@ export class ItemController {
     return this.updateItemUseCase.execute(item_id, updateItemDto);
   }
 
+  /**
+   * Delete an item by ID.
+   * @param item_id - The unique ID of the item to delete.
+   * @returns A confirmation message of the deletion.
+   */
   @Delete(':id')
   @ApiOperation({
     summary: 'Delete item',
@@ -101,6 +138,12 @@ export class ItemController {
     return this.deleteItemUseCase.execute(item_id);
   }
 
+  /**
+   * Borrow an item.
+   * @param item_id - The unique ID of the item to borrow.
+   * @param borrowItemDto - The details of the borrowing request.
+   * @returns The updated item after borrowing.
+   */
   @Patch(':id/borrow')
   @ApiOperation({
     summary: 'Borrow item',
@@ -114,6 +157,12 @@ export class ItemController {
     return this.borrowItemUseCase.execute(item_id, borrowItemDto);
   }
 
+  /**
+   * Return a borrowed item.
+   * @param item_id - The unique ID of the item to return.
+   * @param returnItemDto - The details of the return request.
+   * @returns The updated item after returning.
+   */
   @Patch(':id/return')
   @ApiOperation({
     summary: 'Return item',
