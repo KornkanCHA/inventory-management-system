@@ -39,7 +39,7 @@ export class ResponseInterceptor implements NestInterceptor {
     const exceptionResponse = exception.getResponse();
     const errorDetails = typeof exceptionResponse === 'string' ? exceptionResponse : (exceptionResponse as any)?.message || exception.message;
 
-    this.logger.error(`Error occurred at path: ${request.url}`);
+    this.logger.log(`Successfully processed request at path: ${request.url}`);
 
     response.status(status).json({
       status: false,
