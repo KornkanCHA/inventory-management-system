@@ -1,3 +1,4 @@
+import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { Item } from "../entities/item.entity";
 import { ItemBusinessRules } from "./item.business-rules";
 
@@ -16,18 +17,53 @@ describe("ItemBusinessRules", () => {
         };
     });
 
+    describe("validateSearchResult", () => {
+        it("should throw a exception if no items are found", () => {
+            const mockItems: Item[] = [];
+            expect(() => {
+                ItemBusinessRules.validateSearchResults(mockItems, '1')
+            }).toThrow(NotFoundException);
+        })
+
+        it("should not throw an exception if items are found", () => {
+            const mockItems: Item[] = [sampleItem];
+            expect(() => {
+                ItemBusinessRules.validateSearchResults(mockItems, '1')
+            }).not.toThrow()
+        })
+    })
+
+    describe("validateExisitngItem", () => {
+        it("should throw an exception if item does not exist", () => {
+            const mockItem = null;
+            const mockItemId = '2';
+
+            expect(() => {
+                ItemBusinessRules.validateExistingItem(mockItem, mockItemId)
+            }).toThrow(NotFoundException);
+        })
+
+        it("should not throw an exception if item exist", () => {
+            const mockItemId = '1';
+
+            expect(() => {
+                ItemBusinessRules.validateExistingItem(sampleItem, mockItemId);
+            }).not.toThrow();
+        })
+    })
+
     describe("validateUniqueItem", () => {
         it("should combine quantities for duplicate item names", () => {
-            const items = [sampleItem];
-            const result = ItemBusinessRules.validateUniqueItem("Sample Item", 5, items);
+            const mockItems = [sampleItem];
+            const result = ItemBusinessRules.validateUniqueItem("Sample Item", 5, mockItems);
 
             expect(result).toEqual(sampleItem);
-            expect(result?.quantity).toBe(15);
+            expect(result.quantity).toBe(15);
         });
 
         it("should return null if no duplicate item is found", () => {
-            const items = [sampleItem];
-            const result = ItemBusinessRules.validateUniqueItem("Nonexistent Item", 5, items);
+            const mockItems = [sampleItem];
+            const result = ItemBusinessRules.validateUniqueItem("Nonexistent Item", 5, mockItems);
 
             expect(result).toBeNull();
         });
@@ -37,13 +73,13 @@ describe("ItemBusinessRules", () => {
         it("should throw an error if borrow quantity is invalid", () => {
             expect(() => {
                 ItemBusinessRules.validateAndBorrowItem(sampleItem, 0);
-            }).toThrow("Borrow quantity must be a valid positive number.");
+            }).toThrow(BadRequestException);
         });
 
         it("should throw an error if borrow quantity exceeds available stock", () => {
             expect(() => {
                 ItemBusinessRules.validateAndBorrowItem(sampleItem, 11);
-            }).toThrow("Insufficient quantity available.");
+            }).toThrow(BadRequestException);
         });
 
         it("should pass validation for valid borrow quantity", () => {
@@ -57,13 +93,13 @@ describe("ItemBusinessRules", () => {
         it("should throw an error if return quantity is invalid", () => {
             expect(() => {
                 ItemBusinessRules.validateAndReturnItem(sampleItem, 0);
-            }).toThrow("Return quantity must be a valid positive number.");
+            }).toThrow(BadRequestException);
         });
 
         it("should throw an error if return quantity exceeds borrowed quantity", () => {
             expect(() => {
                 ItemBusinessRules.validateAndReturnItem(sampleItem, 3);
-            }).toThrow("Return quantity exceeds borrowed quantity.");
+            }).toThrow(BadRequestException);
         });
 
         it("should pass validation for valid return quantity", () => {
