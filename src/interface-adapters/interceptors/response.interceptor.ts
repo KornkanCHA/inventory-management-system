@@ -13,7 +13,7 @@ export class ResponseInterceptor implements NestInterceptor {
    * Intercepts the HTTP request and response.
    * @param context - The execution context containing details about the request.
    * @param next - The next handler in the request pipeline.
-   * @returns An observable that emits the transformed response or an error.
+   * @returns Transformed response or an error.
    */
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(
