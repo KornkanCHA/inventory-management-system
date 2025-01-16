@@ -18,7 +18,7 @@ import { ValidationPipe } from '@nestjs/common';
 
 /**
  * Controller for managing inventory items.
- * Provides endpoints for creating, retrieving, updating, deleting, searching, borrowing, and returning items.
+ * @description endpoints for creating, retrieving, updating, deleting, searching, borrowing, and returning items.
  */
 @Controller('items')
 @UseInterceptors(ResponseInterceptor)
@@ -38,10 +38,10 @@ export class ItemController {
 
   /**
    * Search for items by a query.
-   * @param query - The search term to filter items.
-   * @param sortBy - The field to sort the results (optional).
-   * @param order - The sort order, 'ASC' or 'DESC' (default: 'ASC').
-   * @returns A list of items matching the search criteria.
+   * @param {string} query - The search term to filter items.
+   * @param {string} [sortBy] - The field to sort the results (optional).
+   * @param {('ASC' | 'DESC')} [order='ASC'] - The sort order, either 'ASC' or 'DESC' (optional, default: 'ASC').
+   * @returns {Promise<Item[]>} A list of items matching the search criteria.
    */
   @Get('search')
   @ApiOperation({
@@ -62,7 +62,7 @@ export class ItemController {
 
   /**
    * Get all items.
-   * @returns A list of all items.
+   * @returns {Promise<Item[]>} A list of all items.
    */
   @Get()
   @ApiOperation({
@@ -76,8 +76,8 @@ export class ItemController {
 
   /**
    * Get item by ID.
-   * @param item_id - The unique ID of the item.
-   * @returns The details of the requested item.
+   * @param {string} item_id - The unique ID of the item.
+   * @returns {Promise<Item>} The details of the requested item.
    */
   @Get(':id')
   @ApiOperation({
@@ -91,8 +91,8 @@ export class ItemController {
 
   /**
    * Create a new item.
-   * @param createItemDto - The details of the item to create.
-   * @returns The created item.
+   * @param {CreateItemDto} createItemDto - The details of the item to create.
+   * @returns {Promise<Item>} The created item.
    */
   @Post()
   @ApiOperation({
@@ -106,9 +106,9 @@ export class ItemController {
 
   /**
    * Update an item by ID.
-   * @param item_id - The unique ID of the item to update.
-   * @param updateItemDto - The new details for the item.
-   * @returns The updated item.
+   * @param {string} item_id - The unique ID of the item to update.
+   * @param {UpdateItemDto} updateItemDto - The new details for the item.
+   * @returns {Promise<Item>} The updated item.
    */
   @Patch(':id')
   @ApiOperation({
@@ -125,8 +125,8 @@ export class ItemController {
 
   /**
    * Delete an item by ID.
-   * @param item_id - The unique ID of the item to delete.
-   * @returns A confirmation message of the deletion.
+   * @param {string} item_id - The unique ID of the item to delete.
+   * @returns {Promise<Object>} A confirmation message of the deletion.
    */
   @Delete(':id')
   @ApiOperation({
@@ -140,9 +140,9 @@ export class ItemController {
 
   /**
    * Borrow an item.
-   * @param item_id - The unique ID of the item to borrow.
-   * @param borrowItemDto - The details of the borrowing request.
-   * @returns The updated item after borrowing.
+   * @param {string} item_id - The unique ID of the item to borrow.
+   * @param {BorrowItemDto} borrowItemDto - The details of the borrowing request.
+   * @returns {Promise<Item>} The updated item after borrowing.
    */
   @Patch(':id/borrow')
   @ApiOperation({
@@ -159,9 +159,9 @@ export class ItemController {
 
   /**
    * Return a borrowed item.
-   * @param item_id - The unique ID of the item to return.
-   * @param returnItemDto - The details of the return request.
-   * @returns The updated item after returning.
+   * @param {string} item_id - The unique ID of the item to return.
+   * @param {ReturnItemDto} returnItemDto - The details of the return request.
+   * @returns {Promise<Item>} The updated item after returning.
    */
   @Patch(':id/return')
   @ApiOperation({
