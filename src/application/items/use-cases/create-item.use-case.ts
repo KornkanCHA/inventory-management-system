@@ -10,17 +10,17 @@ export class CreateItemUseCase {
 
   async execute(createItemDto: CreateItemDto): Promise<Item> {
     const existingItems = await this.itemRepository.findAll();
-    const updateItem = ItemBusinessRules.validateUniqueItem(
+    const updatedItem = ItemBusinessRules.validateUniqueItem(
       createItemDto.name,
       createItemDto.quantity,
       existingItems
     );
 
-    if (updateItem) {
-      await this.itemRepository.update(updateItem.item_id, {
-        quantity: updateItem.quantity
+    if (updatedItem) {
+      await this.itemRepository.update(updatedItem.item_id, {
+        quantity: updatedItem.quantity
       });
-      return updateItem;
+      return updatedItem;
     }
 
     return await this.itemRepository.create(createItemDto);
