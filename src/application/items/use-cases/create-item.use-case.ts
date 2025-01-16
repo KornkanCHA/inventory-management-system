@@ -3,11 +3,25 @@ import { Item } from 'src/domain/entities/item.entity';
 import { ItemRepositoryImplement } from 'src/interface-adapters/repositories/item.repository.implement';
 import { CreateItemDto } from '../dto/create-item.dto';
 import { ItemBusinessRules } from 'src/domain/business-rules/item.business-rules';
+import { UpdateItemDto } from '../dto/update-item.dto'; // Import UpdateItemDto
+import { UpdateItemUseCase } from './update-item.use-case';
 
+/**
+ * Use case for creating a new item or updating an existing item if the name already exists.
+ * @description This class contains the business logic for creating a new item, and if an item with the same name already exists, it updates the quantity.
+ */
 @Injectable()
 export class CreateItemUseCase {
-  constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+  constructor(
+    private readonly itemRepository: ItemRepositoryImplement,
+    private readonly updateItemUseCase: UpdateItemUseCase 
+  ) {}
 
+  /**
+   * Executes the creation or updating of an item if the name already exists.
+   * @param {CreateItemDto} createItemDto - DTO containing the item details to be created.
+   * @returns {Promise<Item>} The created or updated item.
+   */
   async execute(createItemDto: CreateItemDto): Promise<Item> {
     const existingItems = await this.itemRepository.findAll();
     const updatedItem = ItemBusinessRules.validateUniqueItem(
@@ -17,12 +31,12 @@ export class CreateItemUseCase {
     );
 
     if (updatedItem) {
-      await this.itemRepository.update(updatedItem.item_id, {
-        quantity: updatedItem.quantity
-      });
-      return updatedItem;
+      const updateItemDto: UpdateItemDto = { quantity: updatedItem.quantity };
+      return await this.updateItemUseCase.execute(updatedItem.item_id, updateItemDto);
     }
 
-    return await this.itemRepository.create(createItemDto);
+    const newItem = await this.itemRepository.create(createItemDto);
+    
+    return newItem;
   }
 }
