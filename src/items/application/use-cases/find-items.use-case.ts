@@ -8,13 +8,13 @@ import { Item } from 'src/items/domain/entities/item.entity';
  */
 @Injectable()
 export class GetItemsUseCase {
-  constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
 
-  /**
-   * Executes the retrieval of all items.
-   * @returns {Promise<Item[]>} A list of all items.
-   */
-  async execute(): Promise<Item[]> {
-    return this.itemRepository.findAll();
-  }
+    /**
+     * Executes the retrieval of all items.
+     * @returns {Promise<Item[]>} A list of all items.
+     */
+    async execute(): Promise<Item[]> {
+        return this.itemRepository.findAll();
+    }
 }

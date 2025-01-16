@@ -8,20 +8,20 @@ import { ItemRepositoryImplement } from 'src/items/interface-adapters/repositori
  */
 @Injectable()
 export class DeleteItemUseCase {
-  constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
 
-  /**
-   * Executes the deletion of an item by its ID.
-   * @param {string} item_id - The unique ID of the item to delete.
-   * @returns {Promise<Object>} An object containing a success message.
-   */
-  async execute(item_id: string): Promise<Object> {
-    const item = await this.itemRepository.findById(item_id);
-    
-    ItemBusinessRules.validateExistingItem(item, item_id);
+    /**
+     * Executes the deletion of an item by its ID.
+     * @param {string} item_id - The unique ID of the item to delete.
+     * @returns {Promise<Object>} An object containing a success message.
+     */
+    async execute(item_id: string): Promise<Object> {
+        const item = await this.itemRepository.findById(item_id);
+      
+        ItemBusinessRules.validateExistingItem(item, item_id);
 
-    await this.itemRepository.delete(item_id);
-    
-    return { message: `Item with ID ${item_id} has been deleted successfully.` };
-  }
+        await this.itemRepository.delete(item_id);
+      
+        return { message: `Item with ID ${item_id} has been deleted successfully.` };
+    }
 }

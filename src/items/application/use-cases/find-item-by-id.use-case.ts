@@ -9,19 +9,19 @@ import { ItemBusinessRules } from 'src/items/domain/business-rules/item.business
  */
 @Injectable()
 export class GetItemByIdUseCase {
-  constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
 
-  /**
-   * Executes the retrieval of an item by its ID.
-   * @param {string} item_id - The unique ID of the item to retrieve.
-   * @returns {Promise<Item>} The item with the specified ID.
-   * @throws {NotFoundException} If the item with the given ID does not exist.
-   */
-  async execute(item_id: string): Promise<Item> {
-    const item = await this.itemRepository.findById(item_id);
-    
-    ItemBusinessRules.validateExistingItem(item, item_id);
+    /**
+     * Executes the retrieval of an item by its ID.
+     * @param {string} item_id - The unique ID of the item to retrieve.
+     * @returns {Promise<Item>} The item with the specified ID.
+     * @throws {NotFoundException} If the item with the given ID does not exist.
+     */
+    async execute(item_id: string): Promise<Item> {
+        const item = await this.itemRepository.findById(item_id);
+      
+        ItemBusinessRules.validateExistingItem(item, item_id);
 
-    return item;
-  }
+        return item;
+    }
 }

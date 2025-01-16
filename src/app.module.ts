@@ -3,6 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ItemsModule } from './items/application/use-cases/item.use-cases.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
+/**
+ * The main module for the application.
+ * @description This module imports necessary modules for configuring the application
+ * Including configuration settings, database connection, and the items module for managing item-related use cases.
+ * The configuration values like database credentials and environment settings are loaded from the `.env`.
+ */
 @Module({
   imports: [
     ConfigModule.forRoot(),

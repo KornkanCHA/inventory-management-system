@@ -12,6 +12,11 @@ import { SearchItemUseCase } from './search-item.use-case';
 import { BorrowItemUseCase } from './borrow-item.use-case';
 import { ReturnItemUseCase } from './return-item.use-case';
 
+/**
+ * The ItemsModule is responsible for managing all operations related to items.
+ * @description It imports TypeOrmModule to manage database entities and registers the necessary
+ * components including repositories, use cases, and controllers for the item management system.
+ */
 @Module({
   imports: [TypeOrmModule.forFeature([Item])],
   providers: [

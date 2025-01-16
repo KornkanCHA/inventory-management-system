@@ -20,7 +20,7 @@ export class BorrowItemUseCase {
      */
     async execute(item_id: string, borrowItemDto: BorrowItemDto): Promise<Item> {
         const item = await this.itemRepository.findById(item_id);
-        
+            
         ItemBusinessRules.validateExistingItem(item, item_id);
         
         const updatedItem = ItemBusinessRules.validateAndBorrowItem(item, borrowItemDto.quantity);

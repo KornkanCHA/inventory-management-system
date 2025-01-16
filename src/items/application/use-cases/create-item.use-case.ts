@@ -12,31 +12,31 @@ import { UpdateItemUseCase } from './update-item.use-case';
  */
 @Injectable()
 export class CreateItemUseCase {
-  constructor(
-    private readonly itemRepository: ItemRepositoryImplement,
-    private readonly updateItemUseCase: UpdateItemUseCase 
-  ) {}
+    constructor(
+      private readonly itemRepository: ItemRepositoryImplement,
+      private readonly updateItemUseCase: UpdateItemUseCase 
+    ) {}
 
-  /**
-   * Executes the creation or updating of an item if the name already exists.
-   * @param {CreateItemDto} createItemDto - DTO containing the item details to be created.
-   * @returns {Promise<Item>} The created or updated item.
-   */
-  async execute(createItemDto: CreateItemDto): Promise<Item> {
-    const existingItems = await this.itemRepository.findAll();
-    const updatedItem = ItemBusinessRules.validateUniqueItem(
-      createItemDto.name,
-      createItemDto.quantity,
-      existingItems
-    );
+    /**
+     * Executes the creation or updating of an item if the name already exists.
+     * @param {CreateItemDto} createItemDto - DTO containing the item details to be created.
+     * @returns {Promise<Item>} The created or updated item.
+     */
+    async execute(createItemDto: CreateItemDto): Promise<Item> {
+        const existingItems = await this.itemRepository.findAll();
+        const updatedItem = ItemBusinessRules.validateUniqueItem(
+          createItemDto.name,
+          createItemDto.quantity,
+          existingItems
+        );
 
-    if (updatedItem) {
-      const updateItemDto: UpdateItemDto = { quantity: updatedItem.quantity };
-      return await this.updateItemUseCase.execute(updatedItem.item_id, updateItemDto);
+        if (updatedItem) {
+            const updateItemDto: UpdateItemDto = { quantity: updatedItem.quantity };
+            return await this.updateItemUseCase.execute(updatedItem.item_id, updateItemDto);
+        }
+
+        const newItem = await this.itemRepository.create(createItemDto);
+        
+        return newItem;
     }
-
-    const newItem = await this.itemRepository.create(createItemDto);
-    
-    return newItem;
-  }
 }

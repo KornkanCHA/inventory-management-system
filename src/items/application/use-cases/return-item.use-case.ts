@@ -11,7 +11,7 @@ import { ReturnItemDto } from "../dto/return-item.dto";
 @Injectable()
 export class ReturnItemUseCase {
     constructor(private readonly itemRepository: ItemRepositoryImplement) {}
-
+        
     /**
      * Executes the return of an item by its ID.
      * @param {string} item_id - The unique ID of the item to return.
@@ -25,7 +25,7 @@ export class ReturnItemUseCase {
 
         const updatedItem = ItemBusinessRules.validateAndReturnItem(item, returnItemDto.quantity);
         await this.itemRepository.update(item_id, updatedItem);
-        
+
         return updatedItem;
     }
 }
