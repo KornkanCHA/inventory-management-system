@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ItemController } from './item.controller';
-import { CreateItemUseCase } from 'src/application/items/use-cases/create-item.use-case';
-import { GetItemsUseCase } from 'src/application/items/use-cases/find-items.use-case';
-import { GetItemByIdUseCase } from 'src/application/items/use-cases/find-item-by-id.use-case';
-import { UpdateItemUseCase } from 'src/application/items/use-cases/update-item.use-case';
-import { DeleteItemUseCase } from 'src/application/items/use-cases/delete-item.use-case';
-import { SearchItemUseCase } from 'src/application/items/use-cases/search-item.use-case';
-import { BorrowItemUseCase } from 'src/application/items/use-cases/borrow-item.use-case';
-import { ReturnItemUseCase } from 'src/application/items/use-cases/return-item.use-case';
-import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
-import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
-import { BorrowItemDto } from 'src/application/items/dto/borrow-item.dto';
-import { ReturnItemDto } from 'src/application/items/dto/return-item.dto';
-import { Item } from 'src/domain/entities/item.entity';
+import { CreateItemUseCase } from 'src/items/application/use-cases/create-item.use-case';
+import { UpdateItemUseCase } from 'src/items/application/use-cases/update-item.use-case';
+import { GetItemsUseCase } from 'src/items/application/use-cases/find-items.use-case';
+import { GetItemByIdUseCase } from 'src/items/application/use-cases/find-item-by-id.use-case';
+import { DeleteItemUseCase } from 'src/items/application/use-cases/delete-item.use-case';
+import { SearchItemUseCase } from 'src/items/application/use-cases/search-item.use-case';
+import { BorrowItemUseCase } from 'src/items/application/use-cases/borrow-item.use-case';
+import { ReturnItemUseCase } from 'src/items/application/use-cases/return-item.use-case';
+import { CreateItemDto } from 'src/items/application/dto/create-item.dto';
+import { UpdateItemDto } from 'src/items/application/dto/update-item.dto';
+import { BorrowItemDto } from 'src/items/application/dto/borrow-item.dto';
+import { ReturnItemDto } from 'src/items/application/dto/return-item.dto';
+import { Item } from 'src/items/domain/entities/item.entity';
 
 describe('ItemController', () => {
   let controller: ItemController;
@@ -35,7 +35,6 @@ describe('ItemController', () => {
 
     controller = module.get<ItemController>(ItemController);
 
-    // Mock Data
     mockItem = {
       item_id: '123e4567-e89b-12d3-a456-426614174000',
       name: 'Sample Item',

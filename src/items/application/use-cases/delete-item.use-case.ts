@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ItemBusinessRules } from 'src/domain/business-rules/item.business-rules';
-import { ItemRepositoryImplement } from 'src/interface-adapters/repositories/item.repository.implement';
+import { ItemBusinessRules } from 'src/items/domain/business-rules/item.business-rules';
+import { ItemRepositoryImplement } from 'src/items/interface-adapters/repositories/item.repository.implement';
 
 /**
  * Use case for deleting an item.

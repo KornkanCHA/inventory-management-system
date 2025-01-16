@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Item } from 'src/domain/entities/item.entity';
-import { ItemRepositoryImplement } from 'src/interface-adapters/repositories/item.repository.implement';
+import { Item } from 'src/items/domain/entities/item.entity';
+import { ItemRepositoryImplement } from 'src/items/interface-adapters/repositories/item.repository.implement';
 import { CreateItemDto } from '../dto/create-item.dto';
-import { ItemBusinessRules } from 'src/domain/business-rules/item.business-rules';
+import { ItemBusinessRules } from 'src/items/domain/business-rules/item.business-rules';
 import { UpdateItemDto } from '../dto/update-item.dto'; // Import UpdateItemDto
 import { UpdateItemUseCase } from './update-item.use-case';
 

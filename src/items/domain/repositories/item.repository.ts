@@ -1,6 +1,6 @@
 import { Item } from "../entities/item.entity";
-import { CreateItemDto } from "src/application/items/dto/create-item.dto";
-import { UpdateItemDto } from "src/application/items/dto/update-item.dto";
+import { CreateItemDto } from "src/items/application/dto/create-item.dto";
+import { UpdateItemDto } from "src/items/application/dto/update-item.dto";
 
 export interface ItemRepository {
     findAll(): Promise<Item[]>

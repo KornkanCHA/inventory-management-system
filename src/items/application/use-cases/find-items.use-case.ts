@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ItemRepositoryImplement } from 'src/interface-adapters/repositories/item.repository.implement';
-import { Item } from 'src/domain/entities/item.entity';
+import { ItemRepositoryImplement } from 'src/items/interface-adapters/repositories/item.repository.implement';
+import { Item } from 'src/items/domain/entities/item.entity';
 
 /**
  * Use case for retrieving all items from the inventory.

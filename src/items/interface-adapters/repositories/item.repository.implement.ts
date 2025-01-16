@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { Repository, Like } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Item } from '../../domain/entities/item.entity';
-import { CreateItemDto } from 'src/application/items/dto/create-item.dto';
-import { UpdateItemDto } from 'src/application/items/dto/update-item.dto';
-import { ItemRepository } from 'src/domain/repositories/item.repository';
+import { CreateItemDto } from 'src/items/application/dto/create-item.dto';
+import { UpdateItemDto } from 'src/items/application/dto/update-item.dto';
+import { ItemRepository } from 'src/items/domain/repositories/item.repository';
 
 @Injectable()
 export class ItemRepositoryImplement implements ItemRepository {

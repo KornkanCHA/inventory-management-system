@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ItemRepositoryImplement } from 'src/interface-adapters/repositories/item.repository.implement';
+import { ItemRepositoryImplement } from 'src/items/interface-adapters/repositories/item.repository.implement';
 import { UpdateItemDto } from '../dto/update-item.dto';
-import { Item } from 'src/domain/entities/item.entity';
-import { ItemBusinessRules } from 'src/domain/business-rules/item.business-rules';
+import { Item } from 'src/items/domain/entities/item.entity';
+import { ItemBusinessRules } from 'src/items/domain/business-rules/item.business-rules';
 
 /**
  * Use case for updating an item in the inventory.
