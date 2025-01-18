@@ -7,6 +7,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: inventory-management-system:latest
     environment:
       env_file: ".env"
     ports:
