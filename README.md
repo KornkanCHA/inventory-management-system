@@ -4,19 +4,36 @@
 
 ### Installation
 
-Install and start project with Docker
+To install project:
 
 ```
 git clone https://github.com/KornkanCHA/inventory-management-system.git
 cd inventory-management-system
+```
+
+### Start
+To start the project with initial data by using Docker:
+
+```
 docker compose up --build
 ```
 
-The API documentation from Swagger can be found at http://localhost:8000/api.
+The API documentation from Swagger is available at [http://localhost:3000/api](http://localhost:3000/api).
 
-## Testing
+The MySQL database can be accessed via phpMyAdmin at [http://localhost:8080](http://localhost:8080) with the username and password `root`.
 
-Run the following command to execute tests.
+To adjust the preferred port, go to the `.env` file.
+
+Alternatively, you can run the project without Docker by starting the web server on your local machine and run the following commands:
+
+```
+npm install
+npm run start
+```
+
+### Testing
+
+To execute tests, run the following command:
 
 ```
 npm test
@@ -82,8 +99,9 @@ The system use a **MySQL** database to store data.
 - **Example**: `2025-01-10T12:34:56Z`
 
 #### API Endpoints
-You can access the API endpoints for CRUD operations on items at the base URL: http://localhost:8000/. 
-For detailed API documentation, please refer to the Swagger UI at http://localhost:8000/api.
+You can access the API endpoints for items operations at the base URL: [http://localhost:8000/](http://localhost:8000). 
+
+For detailed API documentation, please refer to the Swagger at [http://localhost:8000/api](http://localhost:8000/api).
 
 | Method | Endpoint                   | Description                                                              |
 |--------|----------------------------|--------------------------------------------------------------------------|
@@ -93,8 +111,8 @@ For detailed API documentation, please refer to the Swagger UI at http://localho
 | POST   | /items                     | Create a new item in the inventory.                                      |
 | PATCH  | /items/:id                 | Update an existing item by ID.                                           |
 | DELETE | /items/:id                 | Delete an item by ID.                                                    |
-| PATCH  | /items/:id/borrow          | Borrow a specified quantity of an item from the inventory.               |
-| PATCH  | /items/:id/return          | Return a borrowed item to the inventory.                                 |
+| PATCH  | /items/:id/borrow          | Borrow an item from the inventory by ID and quantity.                    |
+| PATCH  | /items/:id/return          | Return an item to the inventory by ID and quantity.                      |
 
 
 
