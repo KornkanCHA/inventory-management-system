@@ -99,9 +99,9 @@ The system use a **MySQL** database to store data.
 - **Example**: `2025-01-10T12:34:56Z`
 
 #### API Endpoints
-You can access the API endpoints for items operations at the base URL: [http://localhost:8000/](http://localhost:8000). 
+You can access the API endpoints for items operations at the base URL: [http://localhost:3000](http://localhost:3000). 
 
-For detailed API documentation, please refer to the Swagger at [http://localhost:8000/api](http://localhost:8000/api).
+For detailed API documentation, please refer to the Swagger at [http://localhost:3000/api](http://localhost:3000/api).
 
 | Method | Endpoint                   | Description                                                              |
 |--------|----------------------------|--------------------------------------------------------------------------|
