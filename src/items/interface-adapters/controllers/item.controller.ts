@@ -12,7 +12,7 @@ import { UpdateItemDto } from 'src/items/application/dto/update-item.dto';
 import { BorrowItemDto } from 'src/items/application/dto/borrow-item.dto';
 import { ReturnItemDto } from 'src/items/application/dto/return-item.dto';
 import { Item } from 'src/items/domain/entities/item.entity';
-import { ApiOperation, ApiResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiQuery, ApiTags, ApiParam } from '@nestjs/swagger';
 import { ResponseInterceptor } from '../interceptors/response.interceptor';
 import { ValidationPipe } from '@nestjs/common';
 
@@ -84,6 +84,12 @@ export class ItemController {
     summary: 'Get item by ID',
     description: 'Fetch a specific item by ID.',
   })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'The unique identifier of the item',
+    example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+  })
   @ApiResponse({ status: 200, description: 'Item details retrieved successfully' })
   async findById(@Param('id', ParseUUIDPipe) item_id: string): Promise<Item> {
     return this.getItemByIdUseCase.execute(item_id);
@@ -115,10 +121,16 @@ export class ItemController {
     summary: 'Update item',
     description: 'Update an existing item by ID.',
   })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'The unique identifier of the item',
+    example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+  })
   @ApiResponse({ status: 200, description: 'The item has been updated successfully' })
   async update(
     @Param('id', ParseUUIDPipe) item_id: string,
-    @Body() updateItemDto: UpdateItemDto
+    @Body() updateItemDto: UpdateItemDto,
   ): Promise<Item> {
     return this.updateItemUseCase.execute(item_id, updateItemDto);
   }
@@ -132,6 +144,12 @@ export class ItemController {
   @ApiOperation({
     summary: 'Delete item',
     description: 'Delete an item by ID.',
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'The unique identifier of the item',
+    example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   })
   @ApiResponse({ status: 200, description: 'Item has been deleted successfully' })
   async delete(@Param('id', ParseUUIDPipe) item_id: string): Promise<Object> {
@@ -148,6 +166,12 @@ export class ItemController {
   @ApiOperation({
     summary: 'Borrow item',
     description: 'Borrow a specified quantity of an item from the inventory.',
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'The unique identifier of the item',
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @ApiResponse({ status: 200, description: 'Item borrowed successfully' })
   async borrow(
@@ -167,6 +191,12 @@ export class ItemController {
   @ApiOperation({
     summary: 'Return item',
     description: 'Return a borrowed item to the inventory.',
+  })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'The unique identifier of the item',
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @ApiResponse({ status: 200, description: 'Item returned successfully' })
   async return(

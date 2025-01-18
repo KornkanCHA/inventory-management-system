@@ -31,7 +31,7 @@ export class CreateItemDto {
     @IsOptional()
     @ApiPropertyOptional({
         description: 'A brief description of the item',
-        example: 'Lorem Ipsum.',
+        example: 'Touch, draw, and type on one magical device',
     })
     description?: string;
 
