@@ -1,6 +1,6 @@
 import { Item } from "../entities/item.entity";
-import { CreateItemDto } from "src/items/application/dto/create-item.dto";
-import { UpdateItemDto } from "src/items/application/dto/update-item.dto";
+import { CreateItemDto } from "src/application/item/dto/create-item.dto";
+import { UpdateItemDto } from "src/application/item/dto/update-item.dto";
 
 /**
  * Interface for the ItemRepository.

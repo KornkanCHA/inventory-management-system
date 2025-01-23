@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ItemsModule } from '../application/use-cases/item.use-cases.module';
+import { ItemsModule } from './application/item/use-cases/item.use-cases.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { typeOrmConfig } from './config/typeorm.config';
+import { typeOrmConfig } from './infrastructure/config/typeorm.config';
 
 /**
  * The main module for the application.

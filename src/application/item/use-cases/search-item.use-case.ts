@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ItemRepositoryImplement } from 'src/items/interface-adapters/repositories/item.repository.implement';
-import { Item } from 'src/items/domain/entities/item.entity';
-import { ItemBusinessRules } from 'src/items/domain/business-rules/item.business-rules';
+import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.repository.implement';
+import { Item } from 'src/domain/item/entities/item.entity';
+import { ItemBusinessRules } from 'src/domain/item/business-rules/item.business-rules';
 
 /**
  * Use case for searching items based on a query.

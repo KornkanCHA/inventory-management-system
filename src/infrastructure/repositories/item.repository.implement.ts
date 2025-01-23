@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Repository, Like } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Item } from '../../domain/entities/item.entity';
-import { CreateItemDto } from 'src/items/application/dto/create-item.dto';
-import { UpdateItemDto } from 'src/items/application/dto/update-item.dto';
-import { ItemRepository } from 'src/items/domain/repositories/item.repository';
+import { Item } from 'src/domain/item/entities/item.entity';
+import { CreateItemDto } from 'src/application/item/dto/create-item.dto';
+import { UpdateItemDto } from 'src/application/item/dto/update-item.dto';
+import { ItemRepository } from 'src/domain/item/repositories/item.repository';
 
 /**
  * The implementation of the ItemRepository interface, responsible for interacting with the database.
