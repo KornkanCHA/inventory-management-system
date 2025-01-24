@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.repository.implement';
-import { UpdateItemDto } from '../dto/update-item.dto';
-import { Item } from 'src/domain/item/entities/item.entity';
-import { ItemBusinessRules } from 'src/domain/item/business-rules/item.business-rules';
+import { ItemRepository } from 'src/domain/item/repositories/item.repository';
+import { UpdateItemDto } from '../../../infrastructure/controllers/dto/update-item.dto';
+import { Item } from 'src/domain/item/model/item.model';
+import { ItemService } from 'src/domain/item/service/item.service';
 
 /**
  * Use case for updating an item in the inventory.
@@ -11,7 +11,7 @@ import { ItemBusinessRules } from 'src/domain/item/business-rules/item.business-
  */
 @Injectable()
 export class UpdateItemUseCase {
-    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepository) {}
 
     /**
      * Executes the update of an item by its ID and updated data.
@@ -22,7 +22,7 @@ export class UpdateItemUseCase {
     async execute(item_id: string, updateItemDto: UpdateItemDto): Promise<Item> {
         const item = await this.itemRepository.findById(item_id);
 
-        ItemBusinessRules.validateExistingItem(item, item_id);
+        ItemService.validateExistingItem(item, item_id);
 
         await this.itemRepository.update(item_id, updateItemDto);
       

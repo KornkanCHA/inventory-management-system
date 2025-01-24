@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.repository.implement';
-import { Item } from 'src/domain/item/entities/item.entity';
-import { ItemBusinessRules } from 'src/domain/item/business-rules/item.business-rules';
+import { Item } from 'src/domain/item/model/item.model';
+import { ItemService } from 'src/domain/item/service/item.service';
+import { ItemRepository } from 'src/domain/item/repositories/item.repository';
 
 /**
  * Use case for retrieving an item by its ID.
@@ -9,7 +9,7 @@ import { ItemBusinessRules } from 'src/domain/item/business-rules/item.business-
  */
 @Injectable()
 export class GetItemByIdUseCase {
-    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepository) {}
 
     /**
      * Executes the retrieval of an item by its ID.
@@ -20,7 +20,7 @@ export class GetItemByIdUseCase {
     async execute(item_id: string): Promise<Item> {
         const item = await this.itemRepository.findById(item_id);
       
-        ItemBusinessRules.validateExistingItem(item, item_id);
+        ItemService.validateExistingItem(item, item_id);
 
         return item;
     }

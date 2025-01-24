@@ -10,10 +10,10 @@ import { DeleteItemUseCase } from 'src/application/item/use-cases/delete-item.us
 import { SearchItemUseCase } from 'src/application/item/use-cases/search-item.use-case';
 import { BorrowItemUseCase } from 'src/application/item/use-cases/borrow-item.use-case';
 import { ReturnItemUseCase } from 'src/application/item/use-cases/return-item.use-case';
-import { CreateItemDto } from 'src/application/item/dto/create-item.dto';
-import { UpdateItemDto } from 'src/application/item/dto/update-item.dto';
-import { BorrowItemDto } from 'src/application/item/dto/borrow-item.dto';
-import { ReturnItemDto } from 'src/application/item/dto/return-item.dto';
+import { CreateItemDto } from 'src/infrastructure/controllers/dto/create-item.dto';
+import { UpdateItemDto } from 'src/infrastructure/controllers/dto/update-item.dto';
+import { BorrowItemDto } from 'src/infrastructure/controllers/dto/borrow-item.dto';
+import { ReturnItemDto } from 'src/infrastructure/controllers/dto/return-item.dto';
 
 describe('ItemController (Integration Test)', () => {
   let app: INestApplication;

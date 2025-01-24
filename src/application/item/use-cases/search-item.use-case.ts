@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.repository.implement';
-import { Item } from 'src/domain/item/entities/item.entity';
-import { ItemBusinessRules } from 'src/domain/item/business-rules/item.business-rules';
+import { Injectable } from '@nestjs/common';
+import { ItemRepository } from 'src/domain/item/repositories/item.repository';
+import { Item } from 'src/domain/item/model/item.model';
+import { ItemService } from 'src/domain/item/service/item.service';
 
 /**
  * Use case for searching items based on a query.
@@ -9,7 +9,7 @@ import { ItemBusinessRules } from 'src/domain/item/business-rules/item.business-
  */
 @Injectable()
 export class SearchItemUseCase {
-    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepository) {}
 
     /**
      * Executes the search for items based on the provided query.
@@ -21,7 +21,7 @@ export class SearchItemUseCase {
     async execute(query: string, sortBy = 'name', order: 'ASC' | 'DESC'): Promise<Item[]> {
         const items = await this.itemRepository.search(query, sortBy, order);
 
-        ItemBusinessRules.validateSearchResults(items, query);
+        ItemService.validateSearchResults(items, query);
       
         return items;
     }

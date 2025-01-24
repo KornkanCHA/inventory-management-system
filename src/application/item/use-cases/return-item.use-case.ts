@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { ItemBusinessRules } from "src/domain/item/business-rules/item.business-rules";
-import { ItemRepositoryImplement } from "src/infrastructure/repositories/item.repository.implement";
-import { Item } from "src/domain/item/entities/item.entity";
-import { ReturnItemDto } from "../dto/return-item.dto";
+import { ItemService } from "src/domain/item/service/item.service";
+import { ItemRepository } from "src/domain/item/repositories/item.repository";
+import { Item } from "src/domain/item/model/item.model";
+import { ReturnItemDto } from "../../../infrastructure/controllers/dto/return-item.dto";
 
 /**
  * Use case for handling the return of items.
@@ -10,7 +10,7 @@ import { ReturnItemDto } from "../dto/return-item.dto";
  */
 @Injectable()
 export class ReturnItemUseCase {
-    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepository) {}
         
     /**
      * Executes the return of an item by its ID.
@@ -21,9 +21,9 @@ export class ReturnItemUseCase {
     async execute(item_id: string, returnItemDto: ReturnItemDto): Promise<Item> {
         const item = await this.itemRepository.findById(item_id);
         
-        ItemBusinessRules.validateExistingItem(item, item_id);
+        ItemService.validateExistingItem(item, item_id);
 
-        const updatedItem = ItemBusinessRules.validateAndReturnItem(item, returnItemDto.quantity);
+        const updatedItem = ItemService.validateAndReturnItem(item, returnItemDto.quantity);
         await this.itemRepository.update(item_id, updatedItem);
 
         return updatedItem;

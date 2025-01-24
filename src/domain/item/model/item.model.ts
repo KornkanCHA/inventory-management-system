@@ -1,7 +1,7 @@
 /**
  * The `Item` model represents an item in the inventory management system.
  * It defines the structure of an item without relying on any specific framework.
- * @description This class serves as a simple model to represent an item.
+ * @description This class serve model to represent an item.
  */
 export class Item {
     item_id: string;

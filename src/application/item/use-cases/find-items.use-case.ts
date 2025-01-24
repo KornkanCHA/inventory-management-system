@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.repository.implement';
-import { Item } from 'src/domain/item/entities/item.entity';
+import { ItemRepository } from 'src/domain/item/repositories/item.repository';
+import { Item } from 'src/domain/item/model/item.model';
 
 /**
  * Use case for retrieving all items from the inventory.
@@ -8,7 +8,7 @@ import { Item } from 'src/domain/item/entities/item.entity';
  */
 @Injectable()
 export class GetItemsUseCase {
-    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepository) {}
 
     /**
      * Executes the retrieval of all items.

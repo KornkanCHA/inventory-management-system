@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ItemBusinessRules } from 'src/domain/item/business-rules/item.business-rules';
-import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.repository.implement';
+import { ItemService } from 'src/domain/item/service/item.service';
+import { ItemRepository } from 'src/domain/item/repositories/item.repository';
 
 /**
  * Use case for deleting an item.
@@ -8,7 +8,7 @@ import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.re
  */
 @Injectable()
 export class DeleteItemUseCase {
-    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepository) {}
 
     /**
      * Executes the deletion of an item by its ID.
@@ -18,7 +18,7 @@ export class DeleteItemUseCase {
     async execute(item_id: string): Promise<Object> {
         const item = await this.itemRepository.findById(item_id);
       
-        ItemBusinessRules.validateExistingItem(item, item_id);
+        ItemService.validateExistingItem(item, item_id);
 
         await this.itemRepository.delete(item_id);
       

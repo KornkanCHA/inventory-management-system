@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Item } from 'src/domain/item/entities/item.entity';
-import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.repository.implement';
+import { Item } from 'src/infrastructure/entities/item.entity';
 import { CreateItemUseCase } from './create-item.use-case';
 import { GetItemsUseCase } from './find-items.use-case';
 import { GetItemByIdUseCase } from './find-item-by-id.use-case';
@@ -11,6 +10,8 @@ import { ItemController } from 'src/infrastructure/controllers/item.controller';
 import { SearchItemUseCase } from './search-item.use-case';
 import { BorrowItemUseCase } from './borrow-item.use-case';
 import { ReturnItemUseCase } from './return-item.use-case';
+import { ItemRepository } from 'src/domain/item/repositories/item.repository';
+import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.repository.implement';
 
 /**
  * The ItemsModule is responsible for managing all operations related to items.
@@ -20,7 +21,6 @@ import { ReturnItemUseCase } from './return-item.use-case';
 @Module({
   imports: [TypeOrmModule.forFeature([Item])],
   providers: [
-    ItemRepositoryImplement,
     CreateItemUseCase,
     GetItemsUseCase,
     GetItemByIdUseCase,
@@ -28,7 +28,11 @@ import { ReturnItemUseCase } from './return-item.use-case';
     DeleteItemUseCase,
     SearchItemUseCase,
     BorrowItemUseCase,
-    ReturnItemUseCase
+    ReturnItemUseCase,
+    {
+      provide: ItemRepository,
+      useClass: ItemRepositoryImplement
+    }
   ],
   controllers: [ItemController],
 })

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ItemRepositoryImplement } from './item.repository.implement';
-import { Item } from 'src/domain/item/entities/item.entity';
+import { Item } from 'src/domain/item/model/item.model';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { CreateItemDto } from 'src/application/item/dto/create-item.dto';
-import { UpdateItemDto } from 'src/application/item/dto/update-item.dto';
+import { CreateItemDto } from 'src/infrastructure/controllers/dto/create-item.dto';
+import { UpdateItemDto } from 'src/infrastructure/controllers/dto/update-item.dto';
 import { Like } from 'typeorm';
 
 describe('ItemRepositoryImplement', () => {

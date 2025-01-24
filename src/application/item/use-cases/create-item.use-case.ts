@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Item } from 'src/domain/item/entities/item.entity';
-import { ItemRepositoryImplement } from 'src/infrastructure/repositories/item.repository.implement';
-import { CreateItemDto } from '../dto/create-item.dto';
-import { ItemBusinessRules } from 'src/domain/item/business-rules/item.business-rules';
-import { UpdateItemDto } from '../dto/update-item.dto';
+import { Item } from 'src/domain/item/model/item.model';
+import { CreateItemDto } from '../../../infrastructure/controllers/dto/create-item.dto';
+import { ItemService } from 'src/domain/item/service/item.service';
+import { UpdateItemDto } from '../../../infrastructure/controllers/dto/update-item.dto';
 import { UpdateItemUseCase } from './update-item.use-case';
+import { ItemRepository } from 'src/domain/item/repositories/item.repository';
 
 /**
  * Use case for creating a new item or updating an existing item if the name already exists.
@@ -13,7 +13,7 @@ import { UpdateItemUseCase } from './update-item.use-case';
 @Injectable()
 export class CreateItemUseCase {
     constructor(
-      private readonly itemRepository: ItemRepositoryImplement,
+      private readonly itemRepository: ItemRepository,
       private readonly updateItemUseCase: UpdateItemUseCase 
     ) {}
 
@@ -24,7 +24,7 @@ export class CreateItemUseCase {
      */
     async execute(createItemDto: CreateItemDto): Promise<Item> {
         const existingItems = await this.itemRepository.findAll();
-        const updatedItem = ItemBusinessRules.validateUniqueItem(
+        const updatedItem = ItemService.validateUniqueItem(
           createItemDto.name,
           createItemDto.quantity,
           existingItems

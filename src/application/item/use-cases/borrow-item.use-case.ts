@@ -1,8 +1,8 @@
 import { Injectable} from "@nestjs/common";
-import { ItemBusinessRules } from "src/domain/item/business-rules/item.business-rules";
-import { ItemRepositoryImplement } from "src/infrastructure/repositories/item.repository.implement";
-import { Item } from "src/domain/item/entities/item.entity";
-import { BorrowItemDto } from "../dto/borrow-item.dto";
+import { ItemService } from "src/domain/item/service/item.service";
+import { ItemRepository } from "src/domain/item/repositories/item.repository";
+import { Item } from "src/domain/item/model/item.model";
+import { BorrowItemDto } from "../../../infrastructure/controllers/dto/borrow-item.dto";
 
 /**
  * Use case for handling the borrowing of items.
@@ -10,7 +10,7 @@ import { BorrowItemDto } from "../dto/borrow-item.dto";
  */
 @Injectable()
 export class BorrowItemUseCase {
-    constructor(private readonly itemRepository: ItemRepositoryImplement) {}
+    constructor(private readonly itemRepository: ItemRepository) {}
 
     /**
      * Executes the borrowing of an item by ID.
@@ -21,9 +21,9 @@ export class BorrowItemUseCase {
     async execute(item_id: string, borrowItemDto: BorrowItemDto): Promise<Item> {
         const item = await this.itemRepository.findById(item_id);
             
-        ItemBusinessRules.validateExistingItem(item, item_id);
+        ItemService.validateExistingItem(item, item_id);
         
-        const updatedItem = ItemBusinessRules.validateAndBorrowItem(item, borrowItemDto.quantity);
+        const updatedItem = ItemService.validateAndBorrowItem(item, borrowItemDto.quantity);
         await this.itemRepository.update(item_id, updatedItem);
         
         return updatedItem;
