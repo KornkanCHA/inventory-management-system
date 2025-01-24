@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Repository, Like } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Item } from 'src/domain/item/entities/item.entity';
-import { CreateItemDto } from 'src/application/item/dto/create-item.dto';
-import { UpdateItemDto } from 'src/application/item/dto/update-item.dto';
+import { Item } from '../entities/item.entity';
+import { CreateItemDto } from 'src/infrastructure/controllers/dto/create-item.dto';
+import { UpdateItemDto } from 'src/infrastructure/controllers/dto/update-item.dto';
 import { ItemRepository } from 'src/domain/item/repositories/item.repository';
 
 /**
@@ -14,8 +14,8 @@ import { ItemRepository } from 'src/domain/item/repositories/item.repository';
 @Injectable()
 export class ItemRepositoryImplement implements ItemRepository {
     constructor(
-      @InjectRepository(Item)
-      private readonly itemRepository: Repository<Item>,
+        @InjectRepository(Item)
+        private readonly itemRepository: Repository<Item>,
     ) {}
 
     /**
